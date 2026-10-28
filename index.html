@@ -1,222 +1,1622 @@
-<div style="max-width: 700px; margin: 0 auto; padding: 1.5rem;">
-  <h1 style="font-size: 22px; font-weight: 500; margin-bottom: 1.5rem; color: var(--color-text-primary);">被動收入生成器</h1>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>機智問答15 - iPhone 益智問答</title>
+  <style>
+    :root {
+      --ios-blue: #007aff;
+      --ios-blue-dark: #0051d5;
+      --ios-cyan: #32ade6;
+      --ios-bg-1: #dbeafe;
+      --ios-bg-2: #bae6fd;
+      --ios-bg-3: #e0f2fe;
+      --toast-bg: rgba(255, 255, 255, 0.84);
+      --toast-hover-bg: rgba(255, 255, 255, 0.95);
+      --toast-border: rgba(255, 255, 255, 0.92);
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --danger-red: #ff3b30;
+      --danger-dark: #d70015;
+    }
 
-  <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 1.5rem; margin-bottom: 1.5rem; border: 0.5px solid var(--color-border-tertiary);">
-    
-    <div style="margin-bottom: 1.5rem;">
-      <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; color: var(--color-text-primary);">你擁有的技能或專長</label>
-      <textarea id="skills" placeholder="例如：寫作、設計、編程、營銷、投資..." style="width: 100%; padding: 10px 12px; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); font-family: var(--font-sans); font-size: 14px; background: var(--color-background-primary); color: var(--color-text-primary); min-height: 80px;"></textarea>
-    </div>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-    <div style="margin-bottom: 1.5rem;">
-      <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; color: var(--color-text-primary);">興趣或熱情領域</label>
-      <textarea id="interests" placeholder="例如：健身、旅遊、個人理財、科技..." style="width: 100%; padding: 10px 12px; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); font-family: var(--font-sans); font-size: 14px; background: var(--color-background-primary); color: var(--color-text-primary); min-height: 80px;"></textarea>
-    </div>
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background: radial-gradient(circle at 50% 20%, #334155 0%, #0f172a 70%, #020617 100%);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-x: hidden;
+    }
 
-    <div style="margin-bottom: 1.5rem;">
-      <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; color: var(--color-text-primary);">初始資本</label>
-      <select id="capital" style="width: 100%; padding: 10px 12px; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); font-family: var(--font-sans); font-size: 14px; background: var(--color-background-primary); color: var(--color-text-primary);">
-        <option value="">選擇一個選項</option>
-        <option value="none">幾乎沒有 (0-100 USD)</option>
-        <option value="low">低 (100-1000 USD)</option>
-        <option value="medium">中等 (1000-10000 USD)</option>
-        <option value="high">高 (10000+ USD)</option>
-      </select>
-    </div>
+    /* iPhone 機身外框造型 */
+    .iphone-frame {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      height: 812px;
+      max-height: 94vh;
+      background: linear-gradient(145deg, #3b3e45 0%, #1c1d21 50%, #2c2e33 100%);
+      border-radius: 56px;
+      padding: 13px;
+      box-shadow:
+        0 0 0 2px #52555e,
+        0 30px 70px -12px rgba(0, 0, 0, 0.65),
+        inset 0 0 4px rgba(255, 255, 255, 0.35);
+      display: flex;
+      flex-direction: column;
+    }
 
-    <div style="margin-bottom: 1.5rem;">
-      <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; color: var(--color-text-primary);">可投入時間</label>
-      <select id="timeframe" style="width: 100%; padding: 10px 12px; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); font-family: var(--font-sans); font-size: 14px; background: var(--color-background-primary); color: var(--color-text-primary);">
-        <option value="">選擇一個選項</option>
-        <option value="minimal">最少 (每周 5 小時)</option>
-        <option value="low">低 (每周 10-15 小時)</option>
-        <option value="medium">中等 (每周 20-30 小時)</option>
-        <option value="high">高 (每周 40+ 小時)</option>
-      </select>
-    </div>
+    /* iPhone 側邊實體按鍵裝飾 */
+    .iphone-frame::before {
+      content: "";
+      position: absolute;
+      left: -4px;
+      top: 140px;
+      width: 3px;
+      height: 32px;
+      background: #4b4e57;
+      border-radius: 3px 0 0 3px;
+      box-shadow:
+        0 50px 0 0 #4b4e57,
+        0 102px 0 0 #4b4e57;
+    }
 
-    <div style="display: flex; gap: 8px;">
-      <button onclick="generateIdeas()" style="flex: 1; padding: 10px 16px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-primary); color: var(--color-text-primary); font-size: 14px; font-weight: 500; cursor: pointer;">✨ 生成點子</button>
-      <button onclick="clearForm()" style="flex: 1; padding: 10px 16px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: transparent; color: var(--color-text-primary); font-size: 14px; font-weight: 500; cursor: pointer;">清空</button>
+    .iphone-frame::after {
+      content: "";
+      position: absolute;
+      right: -4px;
+      top: 195px;
+      width: 3px;
+      height: 78px;
+      background: #4b4e57;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* iPhone 螢幕內部空間 */
+    .iphone-screen {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 44px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 18% 15%, rgba(255, 255, 255, 0.8) 0%, transparent 40%),
+        radial-gradient(circle at 82% 80%, rgba(56, 189, 248, 0.45) 0%, transparent 50%),
+        linear-gradient(165deg, #e0f7fa 0%, #bae6fd 42%, #7dd3fc 78%, #38bdf8 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* 螢幕背景浮水印：「機智問答15」 */
+    .watermark-layer {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 64px;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .watermark-text {
+      font-size: 3.1rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      color: rgba(3, 105, 161, 0.11);
+      transform: rotate(-16deg);
+      white-space: nowrap;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+    }
+
+    .watermark-text.sub {
+      font-size: 2.2rem;
+      color: rgba(3, 105, 161, 0.065);
+    }
+
+    /* iPhone 頂部狀態列與動態島 (Dynamic Island) */
+    .ios-status-bar {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      height: 52px;
+      padding: 12px 26px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #0f172a;
+      flex-shrink: 0;
+    }
+
+    .status-time {
+      letter-spacing: -0.01em;
+      width: 54px;
+    }
+
+    .dynamic-island {
+      width: 116px;
+      height: 31px;
+      background: #000000;
+      border-radius: 999px;
+      box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.22),
+        inset 0 0 2px rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 11px;
+    }
+
+    .island-lens {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #1e3a8a 0%, #090d16 70%);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .status-icons {
+      width: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 5px;
+      font-size: 0.75rem;
+    }
+
+    .battery-pill {
+      width: 22px;
+      height: 11px;
+      border: 1.5px solid #0f172a;
+      border-radius: 3.5px;
+      padding: 1.5px;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .battery-pill::after {
+      content: "";
+      position: absolute;
+      right: -3.5px;
+      top: 2.5px;
+      width: 2px;
+      height: 4px;
+      background: #0f172a;
+      border-radius: 0 1px 1px 0;
+    }
+
+    .battery-fill {
+      width: 100%;
+      height: 100%;
+      background: #0f172a;
+      border-radius: 1px;
+    }
+
+    /* 主內容區 */
+    .app-shell {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      width: 100%;
+      padding: 14px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-y: auto;
+    }
+
+    /* iPhone 底部 Home 橫條 */
+    .ios-home-bar-wrap {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .ios-home-bar {
+      width: 132px;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.38);
+    }
+
+    .view {
+      width: 100%;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: toastPopIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .view.active {
+      display: flex;
+    }
+
+    @keyframes toastPopIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* 首頁：浮動訊息提示風格按鈕群 */
+    .home-menu {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 10px 4px;
+    }
+
+    /* 浮動訊息提示 (iOS Floating Notification / Message Toast) 按鈕樣式 */
+    .menu-btn,
+    .option-btn {
+      position: relative;
+      width: 100%;
+      background: var(--toast-bg);
+      backdrop-filter: blur(24px) saturate(190%);
+      -webkit-backdrop-filter: blur(24px) saturate(190%);
+      border: 1px solid var(--toast-border);
+      border-radius: 22px;
+      color: var(--text-main);
+      cursor: pointer;
+      box-shadow:
+        0 12px 30px -6px rgba(15, 23, 42, 0.14),
+        0 4px 10px -2px rgba(2, 132, 199, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      transition:
+        transform 0.14s cubic-bezier(0.2, 0.8, 0.2, 1),
+        background 0.14s ease,
+        box-shadow 0.14s ease,
+        color 0.14s ease,
+        border-color 0.14s ease;
+    }
+
+    .menu-btn {
+      padding: 18px 22px;
+      font-size: 1.18rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    /* 首頁浮動訊息左側藍點提示感 */
+    .menu-btn::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--ios-blue);
+      box-shadow: 0 0 8px rgba(0, 122, 255, 0.6);
+      flex-shrink: 0;
+    }
+
+    .menu-btn:hover,
+    .option-btn:hover {
+      background: var(--toast-hover-bg);
+      transform: translateY(-2px);
+      box-shadow:
+        0 16px 34px -6px rgba(15, 23, 42, 0.18),
+        0 6px 14px -2px rgba(0, 122, 255, 0.16),
+        inset 0 1px 0 #ffffff;
+    }
+
+    /* 按下時加深為 iOS 訊息藍 (iMessage Blue) */
+    .menu-btn:active,
+    .menu-btn.pressed,
+    .option-btn:active,
+    .option-btn.pressed {
+      background: linear-gradient(135deg, var(--ios-blue) 0%, var(--ios-blue-dark) 100%) !important;
+      border-color: rgba(255, 255, 255, 0.4) !important;
+      color: #ffffff !important;
+      transform: scale(0.97) translateY(1px);
+      box-shadow:
+        0 6px 16px -4px rgba(0, 122, 255, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    }
+
+    .menu-btn:active::before,
+    .menu-btn.pressed::before {
+      background: #ffffff;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+    }
+
+    /* 遊戲進行中畫面：只顯示 倒數計時器、目前題號、問題、四個答案按鈕 */
+    .game-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .hud-bar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .timer-box {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 1.35rem;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      color: var(--ios-blue);
+      box-shadow:
+        0 8px 20px -4px rgba(15, 23, 42, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--toast-border);
+      cursor: pointer;
+      transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .timer-box.urgent {
+      background: rgba(255, 59, 48, 0.92);
+      border-color: #ffffff;
+      color: #ffffff;
+      box-shadow: 0 8px 22px -2px rgba(255, 59, 48, 0.5);
+      animation: pulseUrgent 0.45s infinite alternate;
+    }
+
+    @keyframes pulseUrgent {
+      from { transform: scale(1); }
+      to { transform: scale(1.06); }
+    }
+
+    .counter-box {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 1.25rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-sub);
+      box-shadow:
+        0 8px 20px -4px rgba(15, 23, 42, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--toast-border);
+    }
+
+    /* 問題卡片：iOS 置頂通知卡片風格 */
+    .question-box {
+      width: 100%;
+      min-height: 136px;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-radius: 26px;
+      padding: 22px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 1.28rem;
+      font-weight: 800;
+      line-height: 1.48;
+      color: var(--text-main);
+      box-shadow:
+        0 16px 36px -10px rgba(15, 23, 42, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--toast-border);
+    }
+
+    .options-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 11px;
+    }
+
+    /* 選項按鈕：iOS 浮動訊息橫幅 (Floating Message Banner) 樣式 */
+    .option-btn {
+      padding: 15px 18px 15px 16px;
+      font-size: 1.04rem;
+      font-weight: 700;
+      line-height: 1.38;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-left: 4px solid var(--ios-blue);
+    }
+
+    .option-btn::before {
+      content: attr(data-choice);
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      background: linear-gradient(145deg, #38bdf8 0%, var(--ios-blue) 100%);
+      color: #ffffff;
+      font-size: 0.9rem;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 3px 8px rgba(0, 122, 255, 0.3);
+    }
+
+    .option-btn:active::before,
+    .option-btn.pressed::before {
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: none;
+    }
+
+    /* 答錯時出現明顯的紅色錯誤警示 */
+    .error-overlay {
+      position: absolute;
+      inset: 0;
+      border-radius: 44px;
+      background: radial-gradient(circle, rgba(255, 59, 48, 0.3) 0%, rgba(215, 0, 21, 0.58) 100%);
+      border: 6px solid var(--danger-red);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .error-overlay.show {
+      display: flex;
+      animation: errorFlash 0.36s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .error-badge {
+      width: 108px;
+      height: 108px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #ff6961 0%, var(--danger-red) 100%);
+      color: #ffffff;
+      font-size: 3.6rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 18px 36px rgba(215, 0, 21, 0.55);
+      border: 4px solid rgba(255, 255, 255, 0.95);
+    }
+
+    @keyframes errorFlash {
+      0% { opacity: 0; transform: scale(0.85); }
+      30% { opacity: 1; transform: scale(1.04); }
+      100% { opacity: 0; transform: scale(1); }
+    }
+
+    /* 結算與彈窗畫面 */
+    .result-card {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-radius: 28px;
+      padding: 28px 22px;
+      text-align: center;
+      box-shadow:
+        0 20px 44px -10px rgba(15, 23, 42, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--toast-border);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .result-title {
+      font-size: 1.65rem;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+    }
+
+    .result-title.pass {
+      color: #10b981;
+    }
+
+    .result-title.fail {
+      color: var(--danger-dark);
+    }
+
+    .result-stats {
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: var(--text-sub);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 16px;
+      background: rgba(241, 245, 249, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 18px;
+    }
+
+    /* 關卡轉換提示 */
+    .stage-banner {
+      position: absolute;
+      inset: 0;
+      border-radius: 44px;
+      background: rgba(15, 23, 42, 0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #38bdf8;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 95;
+      font-size: 1.85rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .stage-banner.show {
+      display: flex;
+    }
+
+    /* 暫停遮罩 */
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      border-radius: 44px;
+      background: rgba(15, 23, 42, 0.52);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 90;
+      padding: 20px;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+    }
+
+    @media (max-height: 760px) {
+      .iphone-frame {
+        height: 96vh;
+      }
+      .question-box {
+        min-height: 112px;
+        padding: 16px;
+        font-size: 1.15rem;
+      }
+      .option-btn {
+        padding: 12px 14px;
+        font-size: 0.98rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="iphone-frame">
+    <div class="iphone-screen">
+      <!-- 背景浮水印：「機智問答15」 -->
+      <div class="watermark-layer" aria-hidden="true">
+        <div class="watermark-text sub">機智問答15</div>
+        <div class="watermark-text">機智問答15</div>
+        <div class="watermark-text sub">機智問答15</div>
+      </div>
+
+      <!-- iPhone 頂部狀態列與動態島 -->
+      <header class="ios-status-bar" aria-hidden="true">
+        <div class="status-time">9:41</div>
+        <div class="dynamic-island">
+          <div class="island-lens"></div>
+        </div>
+        <div class="status-icons">
+          <span>5G</span>
+          <div class="battery-pill"><div class="battery-fill"></div></div>
+        </div>
+      </header>
+
+      <main class="app-shell">
+        <!-- 首頁：只有選擇「開始」與「開關音樂」 -->
+        <section id="home-view" class="view active" aria-label="首頁">
+          <div class="home-menu">
+            <button id="btn-start" type="button" class="menu-btn">開始</button>
+            <button id="btn-music" type="button" class="menu-btn">音樂：開啟</button>
+          </div>
+        </section>
+
+        <!-- 遊戲進行中畫面：只顯示 倒數計時器、目前題號、問題、四個答案按鈕 -->
+        <section id="game-view" class="view" aria-label="遊戲畫面">
+          <div class="game-container">
+            <div class="hud-bar">
+              <div id="timer-display" class="timer-box" title="點擊可暫停">60</div>
+              <div id="question-counter" class="counter-box">1/15</div>
+            </div>
+            <div id="question-text" class="question-box">題目載入中...</div>
+            <div id="options-container" class="options-grid">
+              <button id="opt-A" type="button" class="option-btn" data-choice="A">A.</button>
+              <button id="opt-B" type="button" class="option-btn" data-choice="B">B.</button>
+              <button id="opt-C" type="button" class="option-btn" data-choice="C">C.</button>
+              <button id="opt-D" type="button" class="option-btn" data-choice="D">D.</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 遊戲結束結算畫面 -->
+        <section id="result-view" class="view" aria-label="結算畫面">
+          <div class="result-card">
+            <div id="result-status" class="result-title fail">未破關</div>
+            <div class="result-stats">
+              <div id="result-correct">答對題數：0 題</div>
+              <div id="result-detail">第一關未完成</div>
+            </div>
+            <button id="btn-back-home" type="button" class="menu-btn">回到首頁</button>
+          </div>
+        </section>
+
+        <!-- 暫停視窗 -->
+        <div id="pause-modal" class="modal-backdrop" role="dialog" aria-modal="true">
+          <div class="result-card">
+            <div id="pause-title" class="result-title">已暫停</div>
+            <button id="btn-resume" type="button" class="menu-btn">繼續</button>
+            <button id="btn-pause-home" type="button" class="menu-btn">回到首頁</button>
+          </div>
+        </div>
+
+        <!-- 30秒快問快答進關提示 -->
+        <div id="stage-banner" class="stage-banner">
+          <div>30 秒快問快答！</div>
+        </div>
+
+        <!-- 答錯紅色錯誤警示 -->
+        <div id="error-overlay" class="error-overlay" aria-hidden="true">
+          <div class="error-badge">✕</div>
+        </div>
+      </main>
+
+      <!-- iPhone 底部 Home Indicator -->
+      <footer class="ios-home-bar-wrap" aria-hidden="true">
+        <div class="ios-home-bar"></div>
+      </footer>
     </div>
   </div>
 
-  <div id="results" style="display: none;"></div>
-  <div id="empty" style="text-align: center; padding: 2rem 1rem; color: var(--color-text-secondary); font-size: 14px;">填寫表單並點擊「生成點子」開始探索被動收入機會</div>
-</div>
+  <script>
+    // =========================================================================
+    // 完整 400 題無厘頭益智題庫（原 300 題 + 新增 100 題腦筋急轉彎與冷笑話）
+    // =========================================================================
+const QUESTION_BANK = [
+  { id: 1, q: "「生魚片其實是」？", options: { A: "活魚片", B: "死魚片", C: "半死魚片", D: "會游泳的魚片" }, answer: "B" },
+  { id: 2, q: "「你最新的照片其實是」？", options: { A: "你最年輕的樣子", B: "你最漂亮的樣子", C: "你最老的樣子", D: "你還沒出生的樣子" }, answer: "C" },
+  { id: 3, q: "「坐公車其實是」？", options: { A: "把公車坐扁", B: "公車坐在你身上", C: "搭公車（而且常常是站著）", D: "跟公車對坐" }, answer: "C" },
+  { id: 4, q: "「搭電梯其實是」？", options: { A: "把電梯搭起來", B: "站電梯（電梯裡面沒有椅子）", C: "背著電梯走", D: "跟電梯聊天" }, answer: "B" },
+  { id: 5, q: "「看醫生其實是」？", options: { A: "去欣賞醫生的長相", B: "給醫生看", C: "盯著醫生不說話", D: "幫醫生把脈" }, answer: "B" },
+  { id: 6, q: "「救火其實是」？", options: { A: "滅火（把火弄死）", B: "把火救活", C: "幫火做人工呼吸", D: "帶火去醫院" }, answer: "A" },
+  { id: 7, q: "「曬太陽其實是」？", options: { A: "把太陽拿出來曬乾", B: "幫太陽擦防曬乳", C: "把太陽掛在衣架上", D: "被太陽曬" }, answer: "D" },
+  { id: 8, q: "「淋雨其實是」？", options: { A: "拿水去淋天上的雨", B: "幫雨洗澡", C: "被雨淋", D: "把雨裝進杯子" }, answer: "C" },
+  { id: 9, q: "「剪頭髮其實是」？", options: { A: "自己動手剪自己的頭", B: "把頭剪下來", C: "給理髮師剪，而且是把頭髮變短", D: "讓頭髮變多" }, answer: "C" },
+  { id: 10, q: "「養病其實是」？", options: { A: "把病當寵物養大", B: "休息把病趕走，不是把病養肥", C: "每天餵病毒吃飯", D: "幫病取名字" }, answer: "B" },
+  { id: 11, q: "「打掃衛生其實是」？", options: { A: "清理髒亂（衛生本來就很乾淨不用打掃）", B: "把衛生打一頓", C: "把乾淨掃走", D: "跟灰塵握手" }, answer: "A" },
+  { id: 12, q: "「打針其實是」？", options: { A: "用拳頭揍那根針", B: "跟針比賽打架", C: "把針折斷", D: "被針扎進去" }, answer: "D" },
+  { id: 13, q: "「吃火鍋其實是」？", options: { A: "把鐵鍋吞進肚子裡", B: "把火吃掉", C: "啃電磁爐", D: "吃鍋子裡煮熟的食物" }, answer: "D" },
+  { id: 14, q: "「吃大碗麵其實是」？", options: { A: "把那個大碗吃掉", B: "碗比麵還好吃", C: "吃裝在大碗裡面的麵", D: "用麵做成的碗" }, answer: "C" },
+  { id: 15, q: "「吹頭髮其實是」？", options: { A: "把頭髮吹走", B: "用風把頭髮上的水吹乾", C: "對著別人的頭吹氣", D: "把頭髮吹成氣球" }, answer: "B" },
+  { id: 16, q: "「洗臉其實是」？", options: { A: "用水和手搓自己的臉皮", B: "把臉拆下來放進洗衣機", C: "幫鏡子洗臉", D: "把臉洗不見" }, answer: "A" },
+  { id: 17, q: "「擦桌子其實是」？", options: { A: "把桌上的灰塵搬家到抹布上", B: "把桌子擦成透明的", C: "幫桌子按摩", D: "把桌子越擦越小" }, answer: "A" },
+  { id: 18, q: "「掃地其實是」？", options: { A: "把地板掃走", B: "幫地球梳頭", C: "把地磚掃起來", D: "改變灰塵在地板上的位置" }, answer: "D" },
+  { id: 19, q: "「丟垃圾其實是」？", options: { A: "讓垃圾在宇宙中消失", B: "跟垃圾玩丟接球", C: "把垃圾從你家移到別的地方去", D: "把垃圾桶丟掉" }, answer: "C" },
+  { id: 20, q: "「折棉被其實是」？", options: { A: "把棉被折斷", B: "為了今天晚上再把它攤開的一種儀式", C: "讓棉被覺得冷", D: "把床變大" }, answer: "B" },
+  { id: 21, q: "「借廁所其實是」？", options: { A: "把馬桶搬回家明天還", B: "進去用一下，而且用完留下的東西不會帶走", C: "跟廁所借錢", D: "把廁所門拆走" }, answer: "B" },
+  { id: 22, q: "「借過其實是」？", options: { A: "請別人讓路，而且走過去之後永遠不會還他", B: "跟別人借時間", C: "借別人的腳走路", D: "把路買下來" }, answer: "A" },
+  { id: 23, q: "「存錢其實是」？", options: { A: "把錢種在土裡長出錢", B: "把錢送給提款機", C: "讓錢自己生小孩", D: "把現在的錢寄放在未來的自己那裡" }, answer: "D" },
+  { id: 24, q: "「花錢其實是」？", options: { A: "把鈔票剪成花朵", B: "用水澆鈔票", C: "把你的錢變成別人的錢", D: "把錢丟進花園" }, answer: "C" },
+  { id: 25, q: "「逛街其實是」？", options: { A: "把整條街買下來", B: "幫馬路檢查地磚", C: "在別人的店裡面練習走路", D: "把街道搬回家" }, answer: "C" },
+  { id: 26, q: "「壓馬路其實是」？", options: { A: "用體重把柏油路壓扁", B: "馬路根本沒感覺，反而是你的腳底板被馬路壓", C: "開壓路機出門", D: "躺在馬路上睡覺" }, answer: "B" },
+  { id: 27, q: "「追劇其實是」？", options: { A: "劇根本沒跑，是你坐在沙發上一動也不動", B: "拿著手機在路上跑給電視劇追", C: "跟演員比賽跑步", D: "把電視機推著走" }, answer: "A" },
+  { id: 28, q: "「殺時間其實是」？", options: { A: "拿刀子砍時鐘", B: "把日曆撕碎", C: "讓時間停止呼吸", D: "時間根本沒死，是時間順便把你變老了" }, answer: "D" },
+  { id: 29, q: "「熬夜其實是」？", options: { A: "把夜晚放進鍋子裡熬湯", B: "把月亮煮成太陽", C: "跟黑夜比誰先睡著", D: "夜根本沒變熟，是你自己的肝快熟了" }, answer: "D" },
+  { id: 30, q: "「守夜其實是」？", options: { A: "怕夜晚偷跑掉所以抓著它", B: "幫月亮看門", C: "夜根本不會逃跑，只是你醒著不睡而已", D: "把星星鎖起來" }, answer: "C" },
+  { id: 31, q: "「睡回頭覺其實是」？", options: { A: "把頭轉一百八十度睡覺", B: "醒來發現還想睡，於是重新閉上眼睛", C: "倒退著走回床上", D: "夢到昨天的自己" }, answer: "B" },
+  { id: 32, q: "「做白日夢其實是」？", options: { A: "人明明醒著，大腦卻自己偷偷下班去玩了", B: "在太陽底下搬床睡覺", C: "夢裡全部都是白色的", D: "跟太陽一起做夢" }, answer: "A" },
+  { id: 33, q: "「發呆其實是」？", options: { A: "眼睛張開著，但靈魂暫時沒有連上網路", B: "把呆子發給大家", C: "大腦正在高速運算微積分", D: "變成一座雕像" }, answer: "A" },
+  { id: 34, q: "「忘記其實是」？", options: { A: "從來沒發生過這件事", B: "把腦袋洗乾淨了", C: "記憶被別人偷走了", D: "記憶還在腦子裡，但你找不到打開它的鑰匙" }, answer: "D" },
+  { id: 35, q: "「想不起來其實是」？", options: { A: "你根本不知道這件事", B: "腦袋突然停電", C: "你清楚知道自己知道，但現在就是講不出來", D: "那件事還沒發生" }, answer: "C" },
+  { id: 36, q: "「買單其實是」？", options: { A: "去買一張紙回來", B: "明明吃了東西，最後卻要花錢買那張帳單", C: "把菜單吃掉", D: "買下整間餐廳" }, answer: "B" },
+  { id: 37, q: "「叫外送其實是」？", options: { A: "對著窗外大喊食物的名字", B: "在手機按幾個鍵，召喚一個陌生人騎車送食物給你", C: "叫外面的風送東西來", D: "自己去外面送東西" }, answer: "B" },
+  { id: 38, q: "「打卡上班其實是」？", options: { A: "用一秒鐘的嗶聲，賣掉自己接下來八小時的自由", B: "跟卡片打架", C: "把打卡鐘打破", D: "去公司玩卡牌遊戲" }, answer: "A" },
+  { id: 39, q: "「加班其實是」？", options: { A: "把班級加長", B: "多上一個人的班表", C: "在公司開派對", D: "太陽都下班了，你還在幫老闆賺錢" }, answer: "D" },
+  { id: 40, q: "「請假其實是」？", options: { A: "請別人吃假的食物", B: "假裝自己有去上班", C: "用自己的特休或扣薪水，買回本來就屬於你的時間", D: "請老闆放假" }, answer: "C" },
+  { id: 41, q: "「翹課其實是」？", options: { A: "把課本弄翹起來", B: "把教室屋頂掀開", C: "課還在教室裡上，只是你的肉體不在那裡", D: "坐在翹翹板上讀書" }, answer: "C" },
+  { id: 42, q: "「點名其實是」？", options: { A: "用手指去戳別人的名字", B: "老師確認誰的身體有準時出現在椅子上", C: "幫大家改名字", D: "把名字點燃" }, answer: "B" },
+  { id: 43, q: "「補習其實是」？", options: { A: "白天在學校聽不懂，晚上換個地方再聽一次", B: "把破掉的習慣縫補起來", C: "幫老師補課", D: "去補習班睡午覺" }, answer: "A" },
+  { id: 44, q: "「減肥其實是」？", options: { A: "把肥肉用剪刀剪掉", B: "讓體重計變輕", C: "把身上的肉分給別人", D: "每天發誓明天才要開始少吃一點的心理活動" }, answer: "D" },
+  { id: 45, q: "「吃飽其實是」？", options: { A: "把『飽』這個字吞下去", B: "永遠不用再吃飯了", C: "變成一顆球", D: "胃已經裝滿了，但嘴巴通常還想再吃兩口" }, answer: "D" },
+  { id: 46, q: "「喝西北風其實是」？", options: { A: "只挑西北方吹來的風喝", B: "用吸管吸颱風", C: "沒東西吃只好張開嘴巴呼吸空氣", D: "去西北方買飲料" }, answer: "C" },
+  { id: 47, q: "「吹冷氣其實是」？", options: { A: "自己對著冷氣機吹氣", B: "把房間裡的熱氣搬到室外去吹路人", C: "讓冷氣機感冒", D: "把冰塊放進電風扇" }, answer: "B" },
+  { id: 48, q: "「關燈其實是」？", options: { A: "切斷電源讓黑暗重新回到房間裡", B: "把燈泡關進籠子裡", C: "幫燈泡蓋被子", D: "把眼睛閉起來" }, answer: "A" },
+  { id: 49, q: "「開門其實是」？", options: { A: "讓牆壁中間暫時出現一個可以走過去的洞", B: "把門劈開", C: "跟門說芝麻開門", D: "把門拆下來丟掉" }, answer: "A" },
+  { id: 50, q: "「鎖門其實是」？", options: { A: "把門綁在樹上", B: "讓門永遠打不開", C: "把鑰匙吃掉", D: "防君子不防小人，順便常常把自己鎖在門外" }, answer: "D" },
+  { id: 51, q: "「聽音樂其實是」？", options: { A: "用眼睛看音符跳舞", B: "把喇叭塞進耳朵", C: "讓空氣震動你的耳膜，然後大腦覺得很爽", D: "幫歌手伴奏" }, answer: "C" },
+  { id: 52, q: "「看電影其實是」？", options: { A: "去電影院看別人的影子在動", B: "坐在黑漆漆的房間裡盯著一塊發光的白布看兩小時", C: "走進螢幕裡面演戲", D: "看攝影機長怎樣" }, answer: "B" },
+  { id: 53, q: "「看書其實是」？", options: { A: "盯著封面看它會不會動", B: "看著死掉的樹木切片上面印著的黑色墨水符號", C: "把書本當電視看", D: "數書本有幾頁" }, answer: "B" },
+  { id: 54, q: "「寫字其實是」？", options: { A: "用筆尖在紙上留下有規則的髒痕跡", B: "把字生出來", C: "跟紙張聊天", D: "把墨水倒在桌上" }, answer: "A" },
+  { id: 55, q: "「擦黑板其實是」？", options: { A: "把黑板擦成白色的", B: "幫黑板敷面膜", C: "把粉筆灰吸進鼻子", D: "把老師辛苦寫了一個小時的字在十秒內毀滅" }, answer: "D" },
+  { id: 56, q: "「畫大餅其實是」？", options: { A: "在紙上畫一個超大的蔥油餅", B: "開一家麵包店", C: "用嘴巴講出一個連自己都不相信的未來承諾", D: "請大家吃下午茶" }, answer: "C" },
+  { id: 57, q: "「背黑鍋其實是」？", options: { A: "把家裡的炒菜鍋背在背上", B: "去買一個黑色的鍋子", C: "明明不是你闖的禍，卻算在你頭上", D: "當廚師的學徒" }, answer: "C" },
+  { id: 58, q: "「放鴿子其實是」？", options: { A: "去公園把和平鴿放生", B: "約好要見面，結果其中一個人選擇原地隱形", C: "養很多隻鳥", D: "寄信給朋友" }, answer: "B" },
+  { id: 59, q: "「炒魷魚其實是」？", options: { A: "老闆請你明天開始不用再來公司了", B: "在辦公室拿平底鍋炒海鮮", C: "請員工吃熱炒", D: "幫魚翻身" }, answer: "A" },
+  { id: 60, q: "「拍馬屁其實是」？", options: { A: "去馬場偷摸馬的屁股", B: "幫馬拍照", C: "被馬踢一腳", D: "講好聽的話讓對方開心，雖然大家都知道是假的" }, answer: "D" },
+  { id: 61, q: "「鑽牛角尖其實是」？", options: { A: "變成螞蟻爬進牛角裡", B: "幫牛修指甲", C: "研究牛角的結構", D: "在一件根本沒人在乎的小事上自己跟自己過不去" }, answer: "D" },
+  { id: 62, q: "「破天荒其實是」？", options: { A: "把天空戳破一個洞", B: "世界末日到了", C: "以前從來沒發生過的事居然發生了", D: "去外太空種田" }, answer: "C" },
+  { id: 63, q: "「開夜車其實是」？", options: { A: "半夜去開計程車", B: "白天不做事，半夜不睡覺拼命趕進度", C: "把車燈關掉開車", D: "在夢裡賽車" }, answer: "B" },
+  { id: 64, q: "「吃閉門羹其實是」？", options: { A: "去找別人結果對方連門都不幫你開", B: "去餐廳點一道叫閉門羹的湯", C: "把門板煮成湯", D: "關起門來自己偷吃" }, answer: "A" },
+  { id: 65, q: "「吃醋其實是」？", options: { A: "看到喜歡的人跟別人太好，心裡莫名其妙變酸", B: "把整瓶白醋乾杯", C: "去餃子店沾醬油", D: "胃酸過多" }, answer: "A" },
+  { id: 66, q: "「炒冷飯其實是」？", options: { A: "做蛋炒飯一定要用隔夜飯", B: "把飯放進冰箱炒", C: "不會開火煮飯", D: "把早就講過八百遍的舊事拿出來再講一遍" }, answer: "D" },
+  { id: 67, q: "「潑冷水其實是」？", options: { A: "夏天幫朋友降溫", B: "洗冷水澡", C: "在別人最興奮的時候講一句話讓他瞬間安靜", D: "把水桶踢翻" }, answer: "C" },
+  { id: 68, q: "「抱佛腳其實是」？", options: { A: "去廟裡抱住神像的腳不放", B: "平時完全不努力，出事了才在最後一秒求救", C: "幫佛像洗腳", D: "練習瑜珈動作" }, answer: "B" },
+  { id: 69, q: "「鬼打牆其實是」？", options: { A: "看到鬼在拆牆壁", B: "自己方向感太差，在同一個地方一直繞圈圈", C: "牆壁長出拳頭", D: "去鬼屋玩遊戲" }, answer: "B" },
+  { id: 70, q: "「睜眼說瞎話其實是」？", options: { A: "明明大家都知道真相，他卻面不改色地亂掰", B: "眼睛瞎了還能說話", C: "一邊點眼藥水一邊講話", D: "看著盲人說話" }, answer: "A" },
+  { id: 71, q: "「洗耳恭聽其實是」？", options: { A: "把耳朵拿去水龍頭下面沖", B: "邊掏耳朵邊聊天", C: "戴著耳機聽音樂", D: "表面上說我很認真聽，其實左耳進右耳出" }, answer: "D" },
+  { id: 72, q: "「拭目以待其實是」？", options: { A: "一直揉眼睛揉到流眼淚", B: "戴上眼鏡等人", C: "嘴巴說很期待，實際上坐著看你到底能做出什麼", D: "閉著眼睛睡覺" }, answer: "C" },
+  { id: 73, q: "「五體投地其實是」？", options: { A: "把身體切成五塊丟在地上", B: "五個人一起跳樓", C: "佩服到極點，或是跌倒時直接整個人趴在地上", D: "在地板上做伏地挺身" }, answer: "C" },
+  { id: 74, q: "「一手交錢一手交貨其實是」？", options: { A: "兩隻手打結在一起", B: "你不信任我、我也不信任你，所以要同時放手", C: "用左手換右手", D: "不用付錢直接拿走" }, answer: "B" },
+  { id: 75, q: "「三思而後行其實是」？", options: { A: "想了太久，結果機會早就跑掉了", B: "想三次之後就去睡覺", C: "算三題數學再走路", D: "三個人一起走路" }, answer: "A" },
+  { id: 76, q: "「度日如年其實是」？", options: { A: "一天真的有三百六十五小時", B: "每天都在過年領紅包", C: "手錶沒電了", D: "無聊或痛苦的時候，時鐘走一格像過了一輩子" }, answer: "D" },
+  { id: 77, q: "「光陰似箭其實是」？", options: { A: "太陽光會像弓箭一樣射傷人", B: "拿時鐘當飛鏢射", C: "時間會轉彎", D: "放假的時候時間飛超快，上班的時候箭就卡住了" }, answer: "D" },
+  { id: 78, q: "「一舉兩得其實是」？", options: { A: "舉重一次拿到兩面金牌", B: "兩隻手一起舉高", C: "本來只想偷懶做一件事，結果不小心順便完成了兩件事", D: "買一送一卻付兩倍錢" }, answer: "C" },
+  { id: 79, q: "「自言自語其實是」？", options: { A: "自己跟自己吵架", B: "找不到別人聽你講話，只好自己當自己的聽眾", C: "練習外星語言", D: "夢話講太大聲" }, answer: "B" },
+  { id: 80, q: "「異口同聲其實是」？", options: { A: "大家明明沒排練過，卻同時講出同一句吐槽的話", B: "共用同一個嘴巴講話", C: "合唱團忘記歌詞", D: "學別人講話" }, answer: "A" },
+  { id: 81, q: "「大驚小怪其實是」？", options: { A: "明明只是看到一隻小蟑螂，叫得像看到恐龍一樣", B: "看到大怪物跟小怪物", C: "在遊樂園坐雲霄飛車", D: "假裝被嚇到" }, answer: "A" },
+  { id: 82, q: "「小題大作其實是」？", options: { A: "把小小的考卷放大影印", B: "寫字寫得特別大", C: "小學生寫大學考卷", D: "一點芝麻小事，卻開了三個小時的會來討論" }, answer: "D" },
+  { id: 83, q: "「半途而廢其實是」？", options: { A: "走到馬路中間突然坐下", B: "把路拆掉一半", C: "買了健身房會員跟參考書，結果只去了第一天", D: "迷路回不了家" }, answer: "C" },
+  { id: 84, q: "「知難而退其實是」？", options: { A: "知道題目很難就倒退走路", B: "發現事情太麻煩，決定先去睡覺保護大腦", C: "考零分還很開心", D: "把難題推給別人" }, answer: "B" },
+  { id: 85, q: "「見機行事其實是」？", options: { A: "看到飛機才開始做事", B: "看老闆今天心情好不好，再決定要不要去報告", C: "看到機器人就跑", D: "邊滑手機邊上班" }, answer: "B" },
+  { id: 86, q: "「順手牽羊其實是」？", options: { A: "看到桌上有別人的零食或筆，不知不覺就拿走了", B: "散步時順便遛一隻綿羊", C: "去牧場打工", D: "跟羊握手" }, answer: "A" },
+  { id: 87, q: "「對牛彈琴其實是」？", options: { A: "在牧場開古典音樂會", B: "牛很喜歡聽鋼琴", C: "把鋼琴搬給牛看", D: "你講了一大堆道理，對方只回你一句『喔是喔』" }, answer: "D" },
+  { id: 88, q: "「畫蛇添足其實是」？", options: { A: "幫蛇穿鞋子", B: "發現新品種的四腳蛇", C: "事情原本已經做好了，你多做一步反而全部毀掉", D: "畫畫技巧太好" }, answer: "C" },
+  { id: 89, q: "「守株待兔其實是」？", options: { A: "抱著一棵樹等兔子外送", B: "在樹下養兔子", C: "運氣好成功過一次，就以為這輩子都不用努力了", D: "幫兔子看守大樹" }, answer: "C" },
+  { id: 90, q: "「掩耳盜鈴其實是」？", options: { A: "戴著耳罩去偷按別人家門鈴", B: "以為自己把眼睛閉上或耳朵摀住，別人就看不到你幹壞事", C: "耳朵痛不能聽鈴聲", D: "把鈴鐺藏在耳朵裡" }, answer: "B" },
+  { id: 91, q: "「盲人摸象其實是」？", options: { A: "只看事情的一小部分，就以為自己懂全部的真相", B: "去動物園免費摸大象", C: "大象跟人玩捉迷藏", D: "閉著眼睛畫大象" }, answer: "A" },
+  { id: 92, q: "「井底之蛙其實是」？", options: { A: "住在水井裡的VIP青蛙", B: "青蛙掉進井裡出不來", C: "井水特別好喝", D: "只看過自己頭上那一小塊天空，就以為全世界只有這麼大" }, answer: "D" },
+  { id: 93, q: "「狐假虎威其實是」？", options: { A: "狐狸跟老虎借衣服穿", B: "老虎怕狐狸", C: "狐狸當上森林之王", D: "自己沒本事，卻站在大老闆後面假裝自己很厲害" }, answer: "D" },
+  { id: 94, q: "「朝三暮四其實是」？", options: { A: "早上三點睡、下午四點起", B: "一天吃七餐", C: "總數根本一模一樣，換個說法就被騙得團團轉", D: "算數永遠算不對" }, answer: "C" },
+  { id: 95, q: "「拔苗助長其實是」？", options: { A: "幫植物做拉筋運動", B: "太急著想要看到成果，結果直接把事情搞砸了", C: "植物長得比樹還高", D: "除草除錯棵" }, answer: "B" },
+  { id: 96, q: "「刻舟求劍其實是」？", options: { A: "世界早就變了，你的腦袋還停留在原地找舊東西", B: "在船上雕刻一把木劍", C: "船沉下去找劍", D: "把劍黏在船底" }, answer: "A" },
+  { id: 97, q: "「買櫝還珠其實是」？", options: { A: "看包裝盒子太漂亮，結果把裡面真正值錢的東西退還給老闆", B: "買了珍珠奶茶只吃珍珠", C: "去珠寶店買木盒", D: "盒子比珠寶貴" }, answer: "A" },
+  { id: 98, q: "「自相矛盾其實是」？", options: { A: "自己拿矛刺自己的盾牌", B: "賣武器生意太好", C: "左右手互打", D: "你現在講的話，直接打臉你五秒鐘前剛講過的話" }, answer: "D" },
+  { id: 99, q: "「杞人憂天其實是」？", options: { A: "每天抬頭看天氣預報", B: "怕太陽掉下來燙傷", C: "擔心一些根本不會發生、或者發生了你也沒辦法的事", D: "幫天空買保險" }, answer: "C" },
+  { id: 100, q: "「愚公移山其實是」？", options: { A: "開挖土機把山剷平", B: "寧願花好幾代人挖山，也絕對不肯直接搬家", C: "把山當成健身房", D: "山自己走開了" }, answer: "B" },
+  { id: 101, q: "「昨天的明天其實是」？", options: { A: "昨天", B: "今天", C: "明天", D: "後天" }, answer: "B" },
+  { id: 102, q: "「明天的昨天其實是」？", options: { A: "今天", B: "前天", C: "明天", D: "大後天" }, answer: "A" },
+  { id: 103, q: "「前天的後天其實是」？", options: { A: "昨天", B: "明天", C: "大前天", D: "今天" }, answer: "D" },
+  { id: 104, q: "「後天的前天其實是」？", options: { A: "明天", B: "昨天", C: "今天", D: "下禮拜" }, answer: "C" },
+  { id: 105, q: "「未來的歷史其實是」？", options: { A: "古代發生的事", B: "永遠不會發生的事", C: "現在正在發生的事", D: "神話故事" }, answer: "C" },
+  { id: 106, q: "「過去的未來其實是」？", options: { A: "恐龍時代", B: "現在或已經發生的事", C: "還沒到來的下個世紀", D: "外太空" }, answer: "B" },
+  { id: 107, q: "「你在出生之前的那一秒，你其實在哪裡」？", options: { A: "還在媽媽肚子裡（還沒出生）", B: "在幼稚園排隊", C: "在報紙上", D: "在跟醫生聊天" }, answer: "A" },
+  { id: 108, q: "「每過一分鐘，你的生命其實同時發生了哪兩件相反的事」？", options: { A: "變高又變矮", B: "變有錢又變窮", C: "變聰明又變笨", D: "年齡多了一分鐘，但剩下的時間少了一分鐘" }, answer: "D" },
+  { id: 109, q: "「世界上最早起床的人，其實常常是什麼人」？", options: { A: "很有紀律的老人", B: "公雞", C: "鬧鐘修理員", D: "昨晚根本還沒去睡覺的人" }, answer: "D" },
+  { id: 110, q: "「世界上最晚睡覺的人，再撐一下其實就變成」？", options: { A: "睡美人", B: "不用睡覺的超人", C: "最早起床吃早餐的人", D: "夢遊的人" }, answer: "C" },
+  { id: 111, q: "「當你說『我再等一下』的時候，你其實已經在」？", options: { A: "跑步", B: "等那一下了", C: "睡覺", D: "回到過去" }, answer: "B" },
+  { id: 112, q: "「『現在』這個瞬間，當你剛講出『現在』兩個字時，它其實已經變成」？", options: { A: "過去（一秒前的歷史）", B: "明天", C: "下輩子", D: "未來" }, answer: "A" },
+  { id: 113, q: "「為什麼『明天』永遠都不會真正到來」？", options: { A: "因為等到明天來的時候，它就改名叫『今天』了", B: "因為地球停了", C: "因為日曆印錯了", D: "因為沒有明天" }, answer: "A" },
+  { id: 114, q: "「當你站在原地完全不動的時候，你其實跟一秒鐘前的自己差在哪裡」？", options: { A: "長得完全不一樣", B: "體重重了十公斤", C: "變成了另一個人", D: "時間不一樣，而且跟著地球在宇宙裡移動了好幾十公里" }, answer: "D" },
+  { id: 115, q: "「如果你一直往北走，走到北極點正中央之後再繼續往前踏一步，你其實是在往哪邊走」？", options: { A: "繼續往北走", B: "往天上飛", C: "往南走", D: "往地心鑽" }, answer: "C" },
+  { id: 116, q: "「如果你繞著地球一直往東走，最後從哪裡回到原點」？", options: { A: "從地底下鑽出來", B: "從原點的西邊走回來", C: "從北極掉下來", D: "永遠回不來" }, answer: "B" },
+  { id: 117, q: "「排隊時排在最後一個的人，如果大家全部原地向後轉，他瞬間變成什麼」？", options: { A: "中間的人", B: "排在第一個的人", C: "插隊的人", D: "隱形的人" }, answer: "B" },
+  { id: 118, q: "「當你走進一間『沒有人的房間』，這間房間會立刻發生什麼事」？", options: { A: "它立刻就不再是『沒有人的房間』了", B: "房間會爆炸", C: "門會自己鎖上", D: "多出十個人" }, answer: "A" },
+  { id: 119, q: "「當最後一個人離開房間時，房間裡多了什麼」？", options: { A: "多了一個人", B: "多了一張椅子", C: "多了一扇門", D: "多了『空無一人』的狀態" }, answer: "D" },
+  { id: 120, q: "「如果你把一個空盒子裝滿了糖果，盒子裡什麼東西不見了」？", options: { A: "盒子不見了", B: "蓋子不見了", C: "原本的『空』不見了", D: "糖果不見了" }, answer: "C" },
+  { id: 121, q: "「你在土裡挖了一個大洞，那個『洞』的本體其實是什麼」？", options: { A: "黑色的石頭", B: "空氣做的磚頭", C: "什麼都沒有（只是原本在那裡的土被搬走了）", D: "地底怪獸" }, answer: "C" },
+  { id: 122, q: "「如果你把半個洞跟另外半個洞合在一起，會變成幾個洞」？", options: { A: "兩個洞", B: "一個洞（根本沒有『半個洞』這種東西）", C: "半個洞", D: "三個洞" }, answer: "B" },
+  { id: 123, q: "「把漁網剪破一個大洞之後，整張網子上面的洞變多了還是變少了」？", options: { A: "變少了（因為原本的好幾個小洞合併成一個大洞了）", B: "變多了", C: "完全沒變", D: "變成零個洞" }, answer: "A" },
+  { id: 124, q: "「吸管從頭通到尾，它到底有幾個洞」？", options: { A: "兩個洞", B: "沒有洞", C: "無限多個洞", D: "其實只有一個貫穿的洞" }, answer: "D" },
+  { id: 125, q: "「你的褲子算上褲頭跟兩隻褲管，總共有幾個開口」？", options: { A: "兩個開口", B: "一個開口", C: "四個開口", D: "三個開口" }, answer: "D" },
+  { id: 126, q: "「影子其實有重量嗎」？", options: { A: "有一公斤重", B: "比人還重", C: "沒有重量，因為它只是光被擋住的地方", D: "晚上比較重" }, answer: "C" },
+  { id: 127, q: "「手電筒能不能照出『黑色的光』」？", options: { A: "裝黑電池就可以", B: "不能，因為黑色就是沒有光", C: "戴墨鏡照就可以", D: "在白天照就可以" }, answer: "B" },
+  { id: 128, q: "「當你閉上雙眼時，你看到的黑色其實是什麼」？", options: { A: "你自己的眼皮內側（沒有光進來的狀態）", B: "眼皮外面的黑布", C: "外太空的黑洞", D: "別人的影子" }, answer: "A" },
+  { id: 129, q: "「你不靠鏡子、不靠照片、不靠任何反光物，這輩子永遠無法親眼直接看到什麼」？", options: { A: "自己的全臉與雙眼", B: "自己的雙手", C: "自己的腳趾頭", D: "自己的肚子" }, answer: "A" },
+  { id: 130, q: "「鏡子裡的你，如果舉起他自己的右手，在現實中的你看起來是在哪一邊」？", options: { A: "跟你的右手不同邊", B: "在頭頂上", C: "在背後", D: "就在你舉起左手的那一邊" }, answer: "D" },
+  { id: 131, q: "「為什麼鏡子裡的世界左右是顛倒的，但上下卻沒有顛倒」？", options: { A: "因為鏡子是直著掛的", B: "因為我們的眼睛是橫著長的", C: "鏡子其實是『前後』反轉，不是左右也不是上下", D: "因為地心引力的關係" }, answer: "C" },
+  { id: 132, q: "「你的右手永遠摸不到全身的哪一個部位」？", options: { A: "左邊肩膀", B: "你自己的右手手肘", C: "自己的額頭", D: "自己的左腳" }, answer: "B" },
+  { id: 133, q: "「當你兩隻手拍手的時候，聲音到底是左手發出来的還是右手發出来的」？", options: { A: "只有左手", B: "兩隻手撞擊空氣一起產生的，單手拍不響", C: "只有右手", D: "嘴巴偷配音的" }, answer: "B" },
+  { id: 134, q: "「把拳頭握緊的時候，你的手掌心去哪裡了」？", options: { A: "還是在手掌上，只是被手指蓋住了", B: "消失在宇宙裡了", C: "跑到手背去了", D: "掉在地上了" }, answer: "A" },
+  { id: 135, q: "「當你站起來的時候，你的『大腿上面（膝蓋上方）』其實瞬間消失了嗎」？", options: { A: "真的消失了", B: "變成小腿了", C: "掉到椅子下了", D: "大腿還在，但原本坐著時能放東西的『腿上平面』不見了" }, answer: "D" },
+  { id: 136, q: "「為什麼你永遠不可能跨過『同一條河』兩次」？", options: { A: "因為河太寬了", B: "因為橋斷掉了", C: "因為第二次跨過去時，流過去的水早就不是原本那些水了", D: "因為腳會酸" }, answer: "C" },
+  { id: 137, q: "「如果一艘木船上的每一塊木頭壞了都換成新的，全部換完之後，它還是原本那艘船嗎」？", options: { A: "變成飛機了", B: "變成潛水艇了", C: "這就是著名的哲學悖論（忒修斯之船），說是或不是都有道理", D: "從來沒有這艘船" }, answer: "C" },
+  { id: 138, q: "「把一堆沙子一粒一粒拿走，拿到剩下一粒的時候還叫沙堆嗎」？", options: { A: "還是超大沙堆", B: "不叫沙堆了，但沒人說得準是拿走第幾粒時突然不叫沙堆的", C: "變成石頭了", D: "變成沙漠了" }, answer: "B" },
+  { id: 139, q: "「一張四角形的桌子，用鋸子鋸掉一個角之後，還剩幾個角」？", options: { A: "五個角（少一個大角，多出兩個小角）", B: "三個角", C: "兩個角", D: "沒有角" }, answer: "A" },
+  { id: 140, q: "「一條繩子剪一刀會變成兩段，如果把繩子頭尾綁成一個圈再剪一刀，會變成幾段」？", options: { A: "兩段", B: "三段", C: "四段", D: "還是一段（只是從圓圈變成一條長繩子）" }, answer: "D" },
+  { id: 141, q: "「如果這個世界上所有的人都同時說謊，那『每個人都在說謊』這句話本身是真話還是假話」？", options: { A: "絕對是真話", B: "絕對是假話", C: "是一首歌", D: "這是一個邏輯悖論（說謊者悖論）" }, answer: "D" },
+  { id: 142, q: "「如果你在紙上寫下『這張紙是空白的』，這張紙其實是」？", options: { A: "真的是空白的", B: "透明的", C: "已經不是空白的了（因為上面有字）", D: "黑色的" }, answer: "C" },
+  { id: 143, q: "「當有人問你『你睡著了嗎』，如果你回答『睡著了』，代表你其實」？", options: { A: "真的睡得很熟", B: "根本還沒睡著（或被他吵醒了）", C: "在游泳", D: "不在房間裡" }, answer: "B" },
+  { id: 144, q: "「當有人大喊『大家不要聽我講話！』，如果大家都聽他的話，結果會怎樣」？", options: { A: "大家既然聽了他的話，就違反了『不要聽他講話』的命令", B: "大家都很聽話", C: "大家都會睡著", D: "時間會倒流" }, answer: "A" },
+  { id: 145, q: "「『這句話有五個字』，這句話本身其實有幾個字」？", options: { A: "七個字", B: "五個字", C: "三個字", D: "十個字" }, answer: "A" },
+  { id: 146, q: "「『絕對不要想一隻粉紅色的大象』，當你讀完這句話時，你腦袋裡出現了什麼」？", options: { A: "一片空白", B: "一隻藍色的螞蟻", C: "數學公式", D: "一隻粉紅色的大象" }, answer: "D" },
+  { id: 147, q: "「如果你告訴別人『我告訴你一個秘密喔』，講完之後那個秘密其實變成了什麼」？", options: { A: "更秘密的秘密", B: "一個願望", C: "兩個人都知道的事（已經不算是你一個人的秘密了）", D: "一塊蛋糕" }, answer: "C" },
+  { id: 148, q: "「當你努力假裝自己『很自然』的時候，你看起來通常怎樣」？", options: { A: "超級自然", B: "超級不自然又很僵硬", C: "像隱形人一樣", D: "像在睡覺" }, answer: "B" },
+  { id: 149, q: "「當你對別人說『我無所謂』的時候，你心裡其實通常」？", options: { A: "真的完全不在乎", B: "非常有所謂，而且很在意", C: "忘記自己在講什麼", D: "想吃便當" }, answer: "B" },
+  { id: 150, q: "「『唯一不變的就是一直在變』，那到底有沒有東西是不變的」？", options: { A: "『會一直改變』這條規律本身沒有變", B: "全部都不變", C: "連規律都不存在", D: "時間停止了" }, answer: "A" },
+  { id: 151, q: "「如果你什麼事都不做，你其實還是正在做什麼事」？", options: { A: "在蓋房子", B: "在跑馬拉松", C: "在寫功課", D: "正在做『什麼都不做』這件事（同時還在呼吸跟變老）" }, answer: "D" },
+  { id: 152, q: "「選擇『不做選擇』，其實本身是不是一種選擇」？", options: { A: "完全不是選擇", B: "是別人的選擇", C: "也是一種選擇", D: "沒有任何意義" }, answer: "C" },
+  { id: 153, q: "「當你發現自己『迷路了』的時候，你其實清不清楚自己在哪裡」？", options: { A: "完全清楚座標", B: "你已經不在地球上了", C: "只知道自己『在現在站著的這個地方』，但不知道這是哪裡", D: "你在家裡床上" }, answer: "C" },
+  { id: 154, q: "「『找不到東西』的時候，那個東西最後通常在哪裡被找到」？", options: { A: "第一個找的地方", B: "你最後一個找的地方（因為找到之後你就不會繼續找了）", C: "外太空", D: "別人家的冰箱" }, answer: "B" },
+  { id: 155, q: "「如果你把『髒水』倒進『乾淨的水』裡，你會得到什麼」？", options: { A: "更多的髒水", B: "全部變乾淨的水", C: "一半乾淨一半髒", D: "水會消失" }, answer: "A" },
+  { id: 156, q: "「為什麼把兩件半乾的衣服疊在一起晾，不會變成一件全乾的衣服」？", options: { A: "因為衣架壞了", B: "因為衣服怕冷", C: "因為太陽太大", D: "濕度不會自己抵消，反而兩件都變更難乾" }, answer: "D" },
+  { id: 157, q: "「如果你把左腳的襪子翻過來反著穿，那襪子裡面其實包著什麼」？", options: { A: "你的左腳", B: "你的右腳", C: "什麼都沒包", D: "除了你的左腳之外的整個宇宙" }, answer: "D" },
+  { id: 158, q: "「當你在房間裡把門關上，到底是『你把自己關在裡面』，還是『你把全世界關在外面』」？", options: { A: "只有你被關住", B: "門沒有關", C: "兩者其實是同一件事，看你用誰的視角看", D: "房間不存在" }, answer: "C" },
+  { id: 159, q: "「動物園裡的籠子，到底是關住動物不讓牠出來，還是擋住人類不讓你進去」？", options: { A: "只關動物", B: "其實雙向都擋住了", C: "只關人類", D: "籠子是透明的" }, answer: "B" },
+  { id: 160, q: "「雨傘到底是幫你擋雨，還是替雨擋住了你」？", options: { A: "物理上它同時隔開了雨跟你的頭頂", B: "雨傘沒有用", C: "雨傘會吸水", D: "雨其實喜歡雨傘" }, answer: "A" },
+  { id: 161, q: "「救護車如果不小心撞傷路人，那台車應該要」？", options: { A: "立刻停下來把人載走，這樣算肇事還是算救援", B: "直接開走", C: "叫另一台消防車", D: "路人要賠救護車" }, answer: "A" },
+  { id: 162, q: "「如果消防局失火了，消防員要打電話叫誰來救火」？", options: { A: "叫外送員", B: "叫警察開單", C: "等下雨", D: "他們自己就在現場，直接拿水管滅火" }, answer: "D" },
+  { id: 163, q: "「如果警察自己東西被偷了，他去報案的時候要跟誰做筆錄」？", options: { A: "跟小偷做筆錄", B: "跟法官報案", C: "跟自己的同事（或對著鏡子問自己）", D: "不用報案" }, answer: "C" },
+  { id: 164, q: "「垃圾袋買回來的唯一目的，其實就是為了什麼」？", options: { A: "拿來裝名牌包", B: "買回來裝滿垃圾之後直接被丟掉", C: "拿來當衣服穿", D: "傳給下一代當傳家寶" }, answer: "B" },
+  { id: 165, q: "「氣球買回來充飽氣，裡面裝的其實是什麼」？", options: { A: "滿滿的黃金", B: "你剛剛免費呼吸得到的空氣（或氦氣）", C: "固體的雲", D: "別人的夢想" }, answer: "B" },
+  { id: 166, q: "「鬧鐘被發明出來的唯一工作，其實就是為了在每天早上被人怎樣」？", options: { A: "被人一巴掌拍掉或按掉", B: "被人親一下", C: "被人誇獎", D: "被人帶去散步" }, answer: "A" },
+  { id: 167, q: "「紅綠燈其實每天都在做什麼工作」？", options: { A: "幫馬路照明", B: "在路邊跳迪斯可", C: "觀察人類長相", D: "用三個顏色的燈泡控制幾百個人的腳跟煞車" }, answer: "D" },
+  { id: 168, q: "「斑馬線畫在馬路上，其實最常被誰踩」？", options: { A: "真的斑馬", B: "長頸鹿", C: "人類的鞋子跟汽車的輪胎", D: "外星人" }, answer: "C" },
+  { id: 169, q: "「地下道其實是在哪裡」？", options: { A: "天空上面", B: "海裡面", C: "馬路的下面，但你走進去時還是站在地板上", D: "樹頂上" }, answer: "C" },
+  { id: 170, q: "「天橋其實有沒有碰到天」？", options: { A: "直接通往外太空", B: "根本沒碰到天，只是比汽車高一點點而已", C: "比雲還要高", D: "碰到月亮了" }, answer: "B" },
+  { id: 171, q: "「摩天大樓其實有沒有摸到天空」？", options: { A: "天空根本沒有實體表面可以摸", B: "把天空擦破皮了", C: "只有頂樓摸得到", D: "晚上才摸得到" }, answer: "A" },
+  { id: 172, q: "「無底洞如果真的沒有底，那掉下去的東西會去哪裡」？", options: { A: "停在半空中", B: "變成鳥飛上來", C: "在洞口排隊", D: "從地球的另一端穿出來（或根本沒有真正的無底洞）" }, answer: "D" },
+  { id: 173, q: "「不毛之地其實有沒有毛」？", options: { A: "長滿了兔毛", B: "地上有假髮", C: "只有冬天有毛", D: "連草都長不出來，當然也沒有毛" }, answer: "D" },
+  { id: 174, q: "「空頭支票上面其實有沒有字」？", options: { A: "完全是一張白紙", B: "畫了一顆人頭", C: "上面有寫金額跟簽名，只是銀行帳戶裡沒錢可以領", D: "用隱形墨水寫的" }, answer: "C" },
+  { id: 175, q: "「稻草人站在田裡，它其實是不是人」？", options: { A: "是農夫假扮的", B: "不是人，只是一把捆起來穿衣服的乾草", C: "是外星人", D: "晚上會走路的人" }, answer: "B" },
+  { id: 176, q: "「雪人到了夏天其實會變成什麼人」？", options: { A: "變成一灘水（根本不再是雪人了）", B: "變成超人", C: "變成石頭人", D: "去北極渡假的人" }, answer: "A" },
+  { id: 177, q: "「木頭人遊戲裡，喊『一二三木頭人』之後還在動的人其實是」？", options: { A: "輸掉遊戲的人類", B: "真正的木頭", C: "會走路的樹", D: "裁判" }, answer: "A" },
+  { id: 178, q: "「透明人如果真的全身完全透明，他自己的眼睛其實會怎樣」？", options: { A: "視力變超好", B: "可以看到未來", C: "眼睛會發光", D: "因為視網膜也透明留不住光線，理論上他會看不見東西" }, answer: "D" },
+  { id: 179, q: "「隱形斗篷如果被你弄丟在房間裡，你要怎麼找到它」？", options: { A: "用眼睛看就看得到", B: "開手電筒照", C: "根本看不到，只能伸手在空氣中亂摸看哪裡摸得到布", D: "看哪裡有斗篷的影子" }, answer: "C" },
+  { id: 180, q: "「不死鳥（鳳凰）如果真的永遠不會死，那牠是怎麼體驗『浴火重生』的」？", options: { A: "去洗熱水澡", B: "得先燒成灰燼才算重生，所以牠其實一直處於死掉又活過來的循環", C: "吃辣椒噴火", D: "從來沒燒過" }, answer: "B" },
+  { id: 181, q: "「千金小姐其實有多重」？", options: { A: "真的有一千斤重", B: "只是形容她很珍貴或家裡有錢，不是體重有一千斤", C: "比大象還重", D: "只有一公克" }, answer: "B" },
+  { id: 182, q: "「萬人迷其實有沒有真的迷倒剛好一萬個人」？", options: { A: "只是一個誇張的形容詞，可能連十個人都不到", B: "去戶政事務所算過剛好一萬人", C: "迷倒了一萬隻螞蟻", D: "自己迷路一萬次" }, answer: "A" },
+  { id: 183, q: "「百事通如果遇到一件他不知道的事，他會瞬間變成什麼」？", options: { A: "萬事通", B: "字典", C: "電腦", D: "九十九事通（或者開始裝懂亂掰）" }, answer: "D" },
+  { id: 184, q: "「鐵公雞身上其實有沒有鐵」？", options: { A: "全身都是不鏽鋼做的", B: "會下鐵蛋", C: "沒有鐵，也沒有毛可以給別人拔（形容人超小氣）", D: "住在五金行裡" }, answer: "C" },
+  { id: 185, q: "「紙老虎如果遇到下雨天，會變成什麼」？", options: { A: "變成真的大老虎", B: "變成獅子", C: "變成一團爛紙糊", D: "學會游泳" }, answer: "C" },
+  { id: 186, q: "「旱鴨子其實是什麼」？", options: { A: "住在沙漠裡的鴨子", B: "不會游泳的人類（連鴨子都不是）", C: "烤熟的北京烤鴨", D: "不會叫的鴨子" }, answer: "B" },
+  { id: 187, q: "「夜貓子半夜不睡覺，那牠其實是貓還是人」？", options: { A: "是愛熬夜滑手機的人類", B: "是真的波斯貓", C: "是貓頭鷹", D: "是老鼠" }, answer: "A" },
+  { id: 188, q: "「跟屁蟲其實是走在你的哪裡」？", options: { A: "走在你的頭頂上", B: "走在你的前面領路", C: "躲在你的鞋子裡", D: "一直跟在你的後面" }, answer: "D" },
+  { id: 189, q: "「應聲蟲最擅長講哪一句話」？", options: { A: "我反對你的意見", B: "自己寫演講稿", C: "一句話都不講", D: "『對對對、你說得都對』" }, answer: "D" },
+  { id: 190, q: "「糊塗蟲其實是不是昆蟲」？", options: { A: "是有六隻腳的昆蟲", B: "是毛毛蟲的親戚", C: "不是蟲，是忘東忘西的人類", D: "會結繭變蝴蝶" }, answer: "C" },
+  { id: 191, q: "「書呆子把書合上之後，他其實還在不在書裡面」？", options: { A: "被夾在書頁裡", B: "他本來就是人，從來沒進到書裡面過", C: "變成書籤了", D: "變成封面了" }, answer: "B" },
+  { id: 192, q: "「門外漢如果走進大門裡面，他還會不會是門外漢」？", options: { A: "只要他還是不懂那門專業，就算站在房間正中央還是門外漢", B: "瞬間變成專家", C: "變成守門員", D: "被門夾到" }, answer: "A" },
+  { id: 193, q: "「老掉牙的故事，聽完之後誰的牙齒會掉下來」？", options: { A: "誰的牙齒都不會掉，只是故事太舊大家都聽膩了", B: "講故事的人", C: "聽故事的人", D: "牙醫的牙齒" }, answer: "A" },
+  { id: 194, q: "「笑掉大牙的時候，真的有人去地上撿牙齒嗎」？", options: { A: "每次都要撿三顆", B: "要去掛急診裝假牙", C: "牙齒會自己飛回去", D: "沒有，頂多笑到下巴很酸而已" }, answer: "D" },
+  { id: 195, q: "「心碎的時候，去醫院照X光會看到幾片心臟」？", options: { A: "碎成八片", B: "心臟不見了", C: "還是完整的一顆心臟，只是心情很難過", D: "變成玻璃做的" }, answer: "C" },
+  { id: 196, q: "「心花怒放的時候，胸口會長出什麼花」？", options: { A: "長出玫瑰花", B: "什麼花都不會長，只是心裡超開心", C: "長出仙人掌", D: "需要澆水施肥" }, answer: "B" },
+  { id: 197, q: "「肚子裡有墨水的人，去上廁所時會發生什麼事」？", options: { A: "尿出黑色的書法墨汁", B: "跟一般人完全一樣，那只是形容他很有學問", C: "可以拿肚子當印表機", D: "不能喝水" }, answer: "B" },
+  { id: 198, q: "「眼紅別人的人，他其實需不需要點眼藥水」？", options: { A: "不用，他只是嫉妒別人過得比他好而已", B: "需要馬上送醫", C: "他變成兔子了", D: "他在切洋蔥" }, answer: "A" },
+  { id: 199, q: "「耳根子軟的人，摸他的耳朵會像什麼」？", options: { A: "像麻糬一樣會拉長", B: "沒有骨頭", C: "耳朵會自己打結", D: "跟一般人耳朵一樣，只是他別人講什麼就信什麼" }, answer: "D" },
+  { id: 200, q: "「嘴硬的人，吃石頭的時候牙齒會不會斷」？", options: { A: "可以把石頭嚼碎", B: "嘴巴是鋼鐵做的", C: "一樣會斷，嘴硬只是死不認錯而已", D: "不用刷牙" }, answer: "C" },
+  { id: 201, q: "「手頭很緊的人，是不是手套戴太小號」？", options: { A: "對，血液不循環", B: "他在練握力器", C: "不是，是他最近沒錢、快要吃土了", D: "他手裡抓著繩子" }, answer: "C" },
+  { id: 202, q: "「腳踏實地的人，坐飛機的時候怎麼辦」？", options: { A: "把飛機地板踩破伸出腳", B: "他只是做事認真老實，不是雙腳永遠不能離開地球表面", C: "拒絕搭電梯", D: "睡覺也要站著" }, answer: "B" },
+  { id: 203, q: "「大頭症的人，買安全帽要買什麼尺寸」？", options: { A: "買一般尺寸就好，因為他是自以為是，不是頭骨真的變大", B: "要拿水桶當安全帽", C: "買不到安全帽", D: "頭會像氣球飄起來" }, answer: "A" },
+  { id: 204, q: "「冷血動物如果喝了熱湯，會變成熱血青年嗎」？", options: { A: "馬上跑去拯救世界", B: "會開始流汗", C: "會學會講話", D: "不會，牠只是肚子裡裝了熱湯的變溫動物" }, answer: "D" },
+  { id: 205, q: "「熱心腸的人，體溫是不是隨時都發燒到四十度」？", options: { A: "對，摸他會燙傷", B: "不能吃冰的東西", C: "冬天不用穿外套", D: "不是，他只是很愛幫忙別人而已" }, answer: "D" },
+  { id: 206, q: "「白手起家的人，創業前一定要先做什麼事」？", options: { A: "把手塗成白色的", B: "戴白手套上班", C: "什麼都不用塗，那是指原本沒有靠家裡給錢", D: "用漂白水洗手" }, answer: "C" },
+  { id: 207, q: "「黑心商人的心臟如果拿出來看，是什麼顏色」？", options: { A: "像木炭一樣黑", B: "生理上還是暗紅色的，只是他的良心不見了", C: "透明無色的", D: "金光閃閃的" }, answer: "B" },
+  { id: 208, q: "「紅人（老闆身邊的紅人）站在綠幕前面拍照，會不會隱形」？", options: { A: "不會，他皮膚又不是真的塗滿紅色油漆", B: "會直接消失", C: "會變成黃色的人", D: "相機拍不出來" }, answer: "A" },
+  { id: 209, q: "「黃牛票其實是不是用牛皮印出來的票」？", options: { A: "不是，只是一張被加價轉賣的普通門票", B: "對，還有一股草味", C: "只有牛可以買", D: "拿去牧場可以用" }, answer: "A" },
+  { id: 210, q: "「白開水其實是什麼顏色」？", options: { A: "像牛奶一樣純白色", B: "淺藍色的", C: "銀白色的", D: "透明無色的（根本不是白色的）" }, answer: "D" },
+  { id: 211, q: "「紅糖、白糖、冰糖泡進水裡融化後，喝起來其實都是什麼味」？", options: { A: "冰糖是冰的，紅糖是辣的", B: "鹹味", C: "全部都是甜味", D: "酸味" }, answer: "C" },
+  { id: 212, q: "「清茶裡面其實有沒有加『清』這種東西」？", options: { A: "加了三匙清", B: "沒有，只是沒加糖也沒加奶的茶而已", C: "完全沒有茶葉", D: "是自來水" }, answer: "B" },
+  { id: 213, q: "「乾冰融化之後，桌上會留下多少水」？", options: { A: "一整碗水", B: "一滴水都沒有（它直接昇華變成二氧化碳氣體跑掉了，所以才叫乾冰）", C: "變成熱水", D: "變成冰淇淋" }, answer: "B" },
+  { id: 214, q: "「棉花糖裡面其實含有百分之幾的棉花」？", options: { A: "百分之零，全部都是糖做出來的（吃棉花會噎到）", B: "百分之五十的純棉", C: "百分之百的羊毛", D: "裡面有藏枕頭" }, answer: "A" },
+  { id: 215, q: "「乖乖桶裡面裝的其實是什麼」？", options: { A: "一個很乖的小朋友", B: "乖乖聽話的空氣", C: "空的塑膠袋", D: "軟糖跟零食" }, answer: "D" },
+  { id: 216, q: "「王子麵買回來打開，裡面其實有沒有王子」？", options: { A: "有一個迷你王子", B: "有王子的皇冠", C: "只有一塊碎掉的乾麵餅跟調味粉包", D: "有白馬" }, answer: "C" },
+  { id: 217, q: "「阿婆鐵蛋其實是誰生的蛋」？", options: { A: "阿婆自己生的", B: "鐵公雞生的", C: "母雞或鵪鶉生的蛋，阿婆只是負責滷它的人", D: "工廠用鐵塊車出來的" }, answer: "C" },
+  { id: 218, q: "「口香糖如果忘記吐出來一直嚼，最後會變成什麼」？", options: { A: "變成一顆新牙齒", B: "變成一塊完全沒味道、讓人嘴巴超酸的橡膠", C: "在嘴裡融化不見", D: "變成泡泡飛走" }, answer: "B" },
+  { id: 219, q: "「左手香這種植物，如果用右手去摸它會怎樣」？", options: { A: "一樣會香（它才不管你用哪一隻手摸）", B: "完全沒味道", C: "會咬你的右手", D: "會枯萎" }, answer: "A" },
+  { id: 220, q: "「含羞草如果沒人看它的時候被風吹到，它還會不會合起來」？", options: { A: "不會，因為沒人看不用害羞", B: "會開心得跳舞", C: "會連根拔起逃跑", D: "還是會合起來，它根本不知道有沒有人在看它" }, answer: "D" },
+  { id: 221, q: "「死胡同走到底之後，其實還可以往哪裡走」？", options: { A: "穿牆過去", B: "原地消失", C: "永遠住在那裡", D: "轉過身往回走（你進來的那條路一直都開著）" }, answer: "D" },
+  { id: 222, q: "「不歸路如果走到一半發現忘記帶手機，其實會怎樣」？", options: { A: "手機自己飛過來", B: "永遠不能回頭", C: "還是會乖乖轉頭回家拿手機", D: "路會自己捲起來" }, answer: "C" },
+  { id: 223, q: "「十字路口如果只有你一個人站在那裡，總共有幾條路可以選」？", options: { A: "十條路", B: "四個方向（包含你剛走過來的那一條）", C: "只有一條路", D: "沒有半條路" }, answer: "B" },
+  { id: 224, q: "「單行道如果倒退著走路進去，算不算逆向」？", options: { A: "你的身體移動方向還是逆向，騙不了別人的眼睛", B: "不算，因為臉朝向正方", C: "算原地踏步", D: "馬路會跟著倒退" }, answer: "A" },
+  { id: 225, q: "「安全島站在上面真的絕對安全嗎」？", options: { A: "它只是馬路中間的水泥塊，三寶衝上來一樣危險", B: "有防護罩保護", C: "上面有椰子樹跟沙灘", D: "是一座海島" }, answer: "A" },
+  { id: 226, q: "「避風港如果刮颱風的時候，裡面真的完全沒風嗎」？", options: { A: "連一絲空氣都不動", B: "有蓋大屋頂", C: "在室內吹冷氣", D: "只是浪比較小，風還是一樣會吹進來" }, answer: "D" },
+  { id: 227, q: "「溫室裡的花朵如果搬去冰箱放，會變成什麼」？", options: { A: "變成野生霸王花", B: "變成塑膠花", C: "變成冷藏的花朵", D: "自己走回溫室" }, answer: "C" },
+  { id: 228, q: "「象牙塔裡面其實是用什麼蓋的」？", options: { A: "真的拔了一萬根象牙蓋的", B: "只是比喻脫離現實的環境，連一根象牙都沒有", C: "大象住的宿舍", D: "用起司蓋的" }, answer: "B" },
+  { id: 229, q: "「閉門造車的人，車子做好之後最大的問題是什麼」？", options: { A: "車子跑太快", B: "門太小，車子根本推不出去", C: "沒有買方向盤", D: "忘記考駕照" }, answer: "B" },
+  { id: 230, q: "「紙上談兵的人，如果把紙撕掉會發生什麼事」？", options: { A: "什麼事都不會發生，因為本來就只有一張紙跟一張嘴", B: "軍隊瞬間全滅", C: "真的打勝仗了", D: "紙會自己黏回去" }, answer: "A" },
+  { id: 231, q: "「如果你在夢裡夢到自己在睡覺，那當你在夢裡醒來時，你其實」？", options: { A: "真的起床刷牙了", B: "已經去上班了", C: "變成兩個人了", D: "還躺在現實的床上繼續做夢（或才剛要醒來）" }, answer: "D" },
+  { id: 232, q: "「如果你對著鏡子猜拳，贏的那個人是誰」？", options: { A: "鏡子裡的你贏了", B: "你一定會贏", C: "永遠只會平手，除非鏡子裡的你不講武德慢出", D: "鏡子會破掉" }, answer: "C" },
+  { id: 233, q: "「如果你自己跟自己下棋，最後誰會輸」？", options: { A: "一定沒有人輸", B: "棋盤會輸", C: "不管哪一邊輸，輸的人跟贏的人都是你自己", D: "旁邊看的人輸" }, answer: "C" },
+  { id: 234, q: "「如果你右手拿十塊錢放進左邊口袋，你的財產總共增加了多少」？", options: { A: "增加了十塊錢", B: "零元（錢還是在你褲子裡，一點都沒變多）", C: "少了十塊錢", D: "變成了二十塊" }, answer: "B" },
+  { id: 235, q: "「把鬧鐘調快十分鐘，你今天擁有的時間會變多嗎」？", options: { A: "一秒鐘都沒變多，你只是在騙未來的自己而已", B: "多賺了十分鐘", C: "太陽會提早下山", D: "一天變成二十五小時" }, answer: "A" },
+  { id: 236, q: "「如果你把日曆一次撕掉十張，你會瞬間老十天嗎」？", options: { A: "馬上長出白頭髮", B: "直接領下個月薪水", C: "瞬間移動到下禮拜", D: "不會，你只是製造了十張廢紙，還得去買新日曆" }, answer: "D" },
+  { id: 237, q: "「當你買了一雙『新鞋子』穿出門走了一步，它其實就變成了什麼」？", options: { A: "更貴的新鞋子", B: "別人的鞋子", C: "會飛的鞋子", D: "一雙『穿過的舊鞋子』" }, answer: "D" },
+  { id: 238, q: "「二手車不管換過幾個車主，為什麼永遠都叫二手車，不叫八手車」？", options: { A: "因為車子只有兩隻手", B: "因為不能賣超過兩次", C: "因為只要不是全新的第一手，大家通通都叫它二手", D: "因為方向盤要用兩隻手握" }, answer: "C" },
+  { id: 239, q: "「『全新二手商品』這句話其實哪裡怪怪的」？", options: { A: "完全合理", B: "既然是二手就是別人買過的，既然是全新就不是二手", C: "一定超級便宜", D: "商品會自己變新" }, answer: "B" },
+  { id: 240, q: "「餐廳寫『最後一天跳樓大拍賣』，結果過了三年招牌還在，代表什麼」？", options: { A: "那個『最後一天』只是印在布條上的裝飾字", B: "老闆跳了三年還沒落地", C: "時間被凍結了", D: "大樓有十萬層樓" }, answer: "A" },
+  { id: 241, q: "「『免費贈送，買一送一』，如果本來就免費，那到底要不要付錢」？", options: { A: "既然寫『買』一送一，代表第一件還是要你掏錢買", B: "完全不用付錢", C: "老闆倒貼你錢", D: "送你整間店" }, answer: "A" },
+  { id: 242, q: "「『全館零元起』的意思，其實你有沒有辦法用零元把店裡東西搬走」？", options: { A: "可以搬空整間店", B: "店員會幫你搬", C: "老闆在做慈善", D: "不行，『零元起』通常代表只有空氣或塑膠袋是零元，其他都要錢" }, answer: "D" },
+  { id: 243, q: "「當包裝上寫『打開即可食用』，如果你不打開直接吃會怎樣」？", options: { A: "味道更好吃", B: "食物會自己穿出來", C: "你會吃到塑膠包裝袋或紙盒", D: "熱量會變零" }, answer: "C" },
+  { id: 244, q: "「洗髮精瓶子背後寫『請重複清洗一次』，如果你完全照做永遠重複，會發生什麼事」？", options: { A: "頭髮變成金色的", B: "你會站在浴室裡洗到整瓶用完還出不來（無限迴圈）", C: "浴室會淹水", D: "洗髮精會變多" }, answer: "B" },
+  { id: 245, q: "「門上面貼著『請用力推』，結果你用力一推發現它是拉門，這時你心裡最想推什麼」？", options: { A: "推空氣", B: "想把貼那張紙的人推出去", C: "把門拆下來", D: "繼續用力推到門壞掉" }, answer: "B" },
+  { id: 246, q: "「電梯裡寫『限乘十人』，如果第十一個人走進去，電梯其實是怎麼知道的」？", options: { A: "電梯根本不會算人頭，它只會秤總重量有沒有超重", B: "電梯有長眼睛在算人頭", C: "電梯會點名", D: "電梯門會咬人" }, answer: "A" },
+  { id: 247, q: "「如果一個體重兩百公斤的人走進『限乘十人、限重六百公斤』的電梯，其實還能進幾個人」？", options: { A: "還能進九個兩百公斤的人", B: "一個都不能進", C: "可以進二十個人", D: "重量決定一切，再進兩個兩百公斤的人就滿了（雖然才三個人）" }, answer: "D" },
+  { id: 248, q: "「自動門看到人走過去就會自己打開，那它看到狗走過去會怎樣」？", options: { A: "檢查狗有沒有帶證件", B: "只開一半", C: "只要感應器有偵測到重量或移動，是狗是貓它一樣照開不誤", D: "會對狗汪汪叫" }, answer: "C" },
+  { id: 249, q: "「聲控燈一定要聽到人的掌聲才會亮嗎」？", options: { A: "對，它會分辨是不是拍手", B: "要對它唱生日快樂歌", C: "不用，你對它大聲打個噴嚏或咳嗽，它一樣以為你在叫它", D: "要喊它的名字" }, answer: "C" },
+  { id: 250, q: "「為什麼『無線網路（Wi-Fi）』的分享器後面，其實還是插著好幾條線」？", options: { A: "因為那是假無線", B: "它只是最後連到你手機那一段沒線，背後還是要插電線跟網路線", C: "為了綁住機器怕它跑掉", D: "設計師喜歡線" }, answer: "B" },
+  { id: 251, q: "「『不沾鍋』用了兩年之後什麼東西都沾，這時候它其實應該改名叫什麼」？", options: { A: "『曾經不沾鍋』或『現在很沾鍋』", B: "超級不沾鍋", C: "透明鍋", D: "隱形鍋" }, answer: "A" },
+  { id: 252, q: "「『防水手錶』如果丟進滾燙的熱水鍋裡煮，還會防水嗎」？", options: { A: "防水力加倍", B: "手錶會學會蛙式", C: "時間會變熱", D: "水可能沒進去，但裡面的防水膠圈跟零件先熟了" }, answer: "D" },
+  { id: 253, q: "「『太陽能手電筒』只在有太陽光的時候才會亮，那晚上停電時要怎麼讓它亮」？", options: { A: "對著月亮照", B: "對它畫一顆太陽", C: "點火烤它", D: "拿另一支手電筒去照它的太陽能板（那直接拿另一支手電筒照路就好了）" }, answer: "D" },
+  { id: 254, q: "「如果你買了一個『隱形眼鏡盒』，結果盒子本身也是隱形的，會發生什麼事」？", options: { A: "看起來超時尚", B: "視力自動變好", C: "你連盒子帶眼鏡一起在桌上永遠找不到", D: "不用戴眼鏡了" }, answer: "C" },
+  { id: 255, q: "「為什麼我們去找眼鏡的時候，常常需要『先把眼鏡戴上』才看得到眼鏡在哪裡」？", options: { A: "因為眼鏡會分身", B: "這就是近視族的最大悲劇（沒戴眼鏡就找不到眼鏡）", C: "因為眼鏡躲起來了", D: "因為有兩雙眼睛" }, answer: "B" },
+  { id: 256, q: "「當眼鏡戴在鼻樑上，你卻到處找眼鏡找了十分鐘，這十分鐘裡眼鏡在做什麼」？", options: { A: "它一直乖乖幫你把世界看清楚，只是你忘記它的存在了", B: "在偷偷笑你", C: "在睡午覺", D: "在幫你算命" }, answer: "A" },
+  { id: 257, q: "「你拿著手機邊講電話，邊緊張地跟對方說『完蛋了我的手機不見了』，對方心裡在想什麼」？", options: { A: "那你現在是用心電感應在跟我講話嗎", B: "趕快幫你報警", C: "去買一支新的", D: "他手機也不見了" }, answer: "A" },
+  { id: 258, q: "「為什麼找東西的時候，嘴巴一直念著那個東西的名字，好像就比較找得到」？", options: { A: "因為東西聽到會回答『我在這』", B: "那是一種魔法咒語", C: "為了吵醒室友幫忙找", D: "只是為了防止你走到另一個房間後，連自己要找什麼都忘了" }, answer: "D" },
+  { id: 259, q: "「當你打開冰箱門盯著裡面看五秒，卻忘記自己要拿什麼，這時候你通常會怎麼做」？", options: { A: "把冰箱搬走", B: "自己鑽進冰箱裡", C: "把門關上，過三秒後不死心再打開看一次", D: "把插頭拔掉" }, answer: "C" },
+  { id: 260, q: "「為什麼走進廚房卻突然忘記要幹嘛時，走回客廳坐下就立刻想起來了」？", options: { A: "因為客廳沙發有記憶晶片", B: "因為大腦把任務綁定在剛才客廳的情境裡了（而且偏偏要等你坐下才想起來）", C: "因為廚房有結界", D: "因為肚子不餓了" }, answer: "B" },
+  { id: 261, q: "「當別人問你『你在幹嘛』，你回答『沒幹嘛』，那你到底有沒有在幹嘛」？", options: { A: "完全靜止像石頭", B: "有，你正在回答他『沒幹嘛』，而且通常正在滑手機放空", C: "正在拯救地球", D: "正在隱形" }, answer: "B" },
+  { id: 262, q: "「當別人說『問你一個問題喔』，其實他還沒問問題之前，已經先做了什麼」？", options: { A: "已經先預告並佔用了你的注意力，讓你沒辦法說不", B: "已經給了你答案", C: "已經問完十個問題了", D: "已經轉身離開了" }, answer: "A" },
+  { id: 263, q: "「當別人說『我不是要批評你，但是……』，接下來的話百分之百是什麼」？", options: { A: "大力誇獎你的話", B: "要請你吃大餐", C: "要跟你借錢", D: "就是要開始批評你了（『但是』前面的話通常都是廢話）" }, answer: "D" },
+  { id: 264, q: "「當別人說『說句老實話』，那他前面講的那些話難道都是什麼」？", options: { A: "全部都是詩歌", B: "全部都是英文", C: "難道前面講的都是不老實的話嗎", D: "全部都是夢話" }, answer: "C" },
+  { id: 265, q: "「當別人問『我這樣講你懂嗎』，如果你其實沒聽懂卻點頭說『懂』，接下來會怎樣」？", options: { A: "你會瞬間變天才", B: "他會給你一百塊", C: "他會繼續講更深奧的東西，而你只能一路假笑點頭到底", D: "他會馬上閉嘴" }, answer: "C" },
+  { id: 266, q: "「在電梯裡遇到不太熟的鄰居，兩個人同時低頭看手機，手機螢幕上通常在滑什麼」？", options: { A: "在看國家機密", B: "在主畫面左右亂滑，假裝自己很忙而已", C: "在跟對方傳訊息", D: "手機根本沒開機" }, answer: "B" },
+  { id: 267, q: "「在路上跟朋友道別說完『掰掰』，結果兩個人接下來走的是同一個方向，這時其實是」？", options: { A: "世上最尷尬的並肩同行（剛剛那個掰掰等於白講了）", B: "瞬間變成陌生人", C: "馬上蹲下綁鞋帶", D: "倒退著走路" }, answer: "A" },
+  { id: 268, q: "「遠遠看到認識的人走過來，太早對他微笑揮手，接下來那十公尺你要做什麼」？", options: { A: "馬上轉頭逃跑", B: "開始原地跳舞", C: "假裝認錯人", D: "保持僵硬的微笑不知道眼睛要看哪裡，直到走近為止" }, answer: "D" },
+  { id: 269, q: "「對著遠方揮手打招呼的人回揮手，結果發現他揮手的是你後面的人，這時你的手其實會」？", options: { A: "把整隻手砍掉", B: "繼續揮一個小時", C: "跟後面的人一起揮", D: "順勢摸一下自己的頭髮或後腦勺，假裝剛剛是在抓癢" }, answer: "D" },
+  { id: 270, q: "「推門走進店裡時，為什麼明明看到門上有玻璃，有時候還是會一頭撞上去」？", options: { A: "因為你有穿牆術", B: "因為玻璃突然長出來", C: "因為店員把玻璃擦得太乾淨，你的大腦以為那裡只有空氣", D: "因為門在移動" }, answer: "C" },
+  { id: 271, q: "「走在平地上卻自己左腳絆到右腳差點跌倒，站穩後第一件事通常不是看腳，而是看哪裡」？", options: { A: "看天空有沒有鳥", B: "馬上轉頭看四周有沒有路人看到你剛剛耍蠢", C: "看地板有沒有地洞", D: "看鞋子有沒有壞" }, answer: "B" },
+  { id: 272, q: "「戴著耳機聽歌時，為什麼我們總是覺得自己小聲哼出來的歌聲跟原唱一模一樣」？", options: { A: "因為耳機音樂太大聲蓋住了你走音的聲音，只有旁邊的人聽得一清二楚", B: "因為你真的是歌神", C: "因為麥克風壞了", D: "因為原唱在學你" }, answer: "A" },
+  { id: 273, q: "「拍照時大家一起喊『一、二、三、起司』，但照片拍出來之後裡面有起司嗎」？", options: { A: "沒有起司，只有一群為了發『斯』的音而露出牙齒的人", B: "每個人嘴裡都有起司", C: "相機變成起司了", D: "攝影師在吃起司" }, answer: "A" },
+  { id: 274, q: "「自拍的時候看了鏡頭，為什麼拍出來的照片裡你的眼神卻像在看旁邊」？", options: { A: "因為相機在動", B: "因為眼睛會轉彎", C: "因為手機反了", D: "因為你看的是螢幕上的自己，沒有看鏡頭那顆小黑點" }, answer: "D" },
+  { id: 275, q: "「大合照拍完之後，每個人拿過手機第一眼看的永遠是誰」？", options: { A: "看攝影師有沒有入鏡", B: "看背景的路人", C: "永遠先放大看自己那張臉好不好看，根本不管別人有沒有閉眼", D: "看天空的雲" }, answer: "C" },
+  { id: 276, q: "「只要你在大合照裡特別好看，為什麼其他朋友通常就會說『這張重拍』」？", options: { A: "因為相機壞了", B: "因為你好看的那一張，剛好別人不是閉眼就是表情歪掉", C: "因為大家太謙虛", D: "因為燈光太亮" }, answer: "B" },
+  { id: 277, q: "「為什麼證件照上面的自己，看起來永遠最像通緝犯」？", options: { A: "因為相館有特殊濾鏡", B: "因為規定不能笑、不能遮耳朵還要正臉直視，誰拍起來都像剛被抓到", C: "因為相機太貴", D: "因為洗照片用錯藥水" }, answer: "B" },
+  { id: 278, q: "「去算命的時候，如果算命師第一句話問你『你今天來要問什麼』，你其實可以怎麼回他」？", options: { A: "『你不是會算命嗎？應該是你算出來我要問什麼才對吧』", B: "全部告訴他", C: "問他樂透號碼", D: "幫他算命" }, answer: "A" },
+  { id: 279, q: "「如果兩個都會讀心術的人見面，他們其實都在讀什麼」？", options: { A: "在讀百科全書", B: "完全讀不到東西", C: "在讀明天的報紙", D: "在讀對方正在讀自己心裡的無限迴圈（像兩面鏡子對照一樣）" }, answer: "D" },
+  { id: 280, q: "「如果一個隱形人打了另一個隱形人一拳，旁邊的路人會看到什麼」？", options: { A: "看到兩個人打架", B: "看到一隻手套在飛", C: "什麼都看不到，只聽到空氣中傳出『啪』一聲跟慘叫聲", D: "看到地上有影子打架" }, answer: "C" },
+  { id: 281, q: "「如果超人飛行時忘了往前伸手，他還飛得動嗎」？", options: { A: "會直接掉下來", B: "會變成倒退飛", C: "他靠的是超能力又不是靠手掌划空氣，不伸手一樣能飛（只是比較沒氣勢）", D: "會在原地轉圈圈" }, answer: "C" },
+  { id: 282, q: "「如果木偶奇遇記的小木偶說『我的鼻子現在要變長了』，他的鼻子到底會不會變長」？", options: { A: "一定不會變長", B: "如果變長代表他說真話（但說真話不該變長）；如果不變長代表他說謊（說謊又該變長），鼻子直接當機", C: "鼻子會掉下來", D: "變成大象鼻子" }, answer: "B" },
+  { id: 283, q: "「睡美人睡了一百年都沒刷牙，王子親下去之前其實最需要什麼」？", options: { A: "需要超強效漱口水或防毒面具（幸好童話故事裡沒有口臭設定）", B: "需要一把寶劍", C: "需要一匹白馬", D: "需要一個鬧鐘" }, answer: "A" },
+  { id: 284, q: "「如果灰姑娘穿的是布鞋不是玻璃鞋，整個故事會變成怎樣」？", options: { A: "王子跑得更快", B: "布鞋會變成南瓜", C: "王子去買運動鞋", D: "鞋子根本不會掉下來，她直接穿著布鞋跑回家繼續掃地" }, answer: "D" },
+  { id: 285, q: "「人魚公主上半身是人、下半身是魚，那她去魚市場買魚吃的時候算什麼」？", options: { A: "算吃素", B: "算保護海洋", C: "魚老闆會送她魚", D: "算吃半個同類，也算大魚吃小魚" }, answer: "D" },
+  { id: 286, q: "「半人馬有人的上半身跟馬的下半身，那牠總共有幾個胸腔跟肚子」？", options: { A: "只有半個", B: "完全沒有肚子", C: "仔細想想，人的上半身有一個肚子，馬的身體裡又有一個肚子，吃飯要吃兩份", D: "三個肚子" }, answer: "C" },
+  { id: 287, q: "「長頸鹿如果戴領帶，領帶到底應該綁在脖子的最上面還是最下面」？", options: { A: "綁在頭頂上", B: "襯衫領子在最下面，所以理論上綁在靠近肩膀的最下面（但綁哪裡都很怪）", C: "綁十條領帶", D: "綁在尾巴上" }, answer: "B" },
+  { id: 288, q: "「如果狗穿褲子，到底應該只穿後面的兩隻腳，還是四隻腳都要套進去」？", options: { A: "這題全世界的網友吵了十年還沒吵出標準答案（但實務上只穿後面兩隻腳才不會遮肚子）", B: "穿在頭上", C: "只穿左邊兩隻腳", D: "穿在尾巴上" }, answer: "A" },
+  { id: 289, q: "「螃蟹有八隻走路的腳跟兩隻大螯，牠如果去買鞋子要買幾雙」？", options: { A: "螃蟹根本不穿鞋子（如果硬要穿走路的腳要買四雙）", B: "買一雙就好", C: "買十雙手套", D: "買溜冰鞋" }, answer: "A" },
+  { id: 290, q: "「蜈蚣出門上學卻遲到了，最合理的無厘頭原因是什麼」？", options: { A: "因為公車沒來", B: "因為鬧鐘沒響", C: "因為忘記帶書包", D: "因為牠光是在門口穿鞋子、綁鞋帶就綁了兩個小時" }, answer: "D" },
+  { id: 291, q: "「魚在水裡生活一輩子，牠們會不會覺得口渴」？", options: { A: "每天要喝八杯水", B: "魚只喝汽水", C: "淡水魚不愛喝水怕撐破，海水魚則要一直喝水排鹽（而且牠們隨時都泡在飲料裡）", D: "魚會去岸上買水" }, answer: "C" },
+  { id: 292, q: "「鳥在天上飛的時候如果睡著了，為什麼不會像石頭一樣直接砸下來」？", options: { A: "因為天上有隱形床墊", B: "大多數鳥降落才睡，但像軍艦鳥可以讓左右半腦輪流睡覺邊飛邊休息", C: "因為有降落傘", D: "因為雲會接住牠" }, answer: "B" },
+  { id: 293, q: "「如果把一塊塗了奶油的吐司綁在貓背上（奶油朝上），掉下去時誰會著地」？", options: { A: "貓的背會著地", B: "網路笑話說會懸浮旋轉發電，但現實中貓比較重，還是貓的四隻腳先著地", C: "吐司會吃掉貓", D: "會直接飛去外太空" }, answer: "B" },
+  { id: 294, q: "「為什麼『標準答案』常常只有一個，但『錯誤答案』卻可以有無限多個」？", options: { A: "因為走到終點的路只有那條，但迷路可以往四面八方亂走", B: "因為老師懶得改考卷", C: "因為題目印錯了", D: "因為沒有標準答案" }, answer: "A" },
+  { id: 295, q: "「當你猜選擇題『四選一』卻連續猜錯四題時，代表你的運氣其實怎樣」？", options: { A: "運氣普通", B: "考卷有問題", C: "鉛筆沒削好", D: "準確避開所有正確答案其實機率超低，某種意義上你也是天選之人" }, answer: "D" },
+  { id: 296, q: "「如果你在『是非題』交白卷，跟全部亂猜比起來，哪一個比較虧」？", options: { A: "全部亂猜比較虧", B: "分數一模一樣", C: "交白卷保證零分，亂猜至少還有一半機率對（不倒扣的話當然要猜）", D: "老師會幫你寫" }, answer: "C" },
+  { id: 297, q: "「為什麼每次考完試對答案，大家都說『我也是選這個』，結果發下來分數卻不一樣」？", options: { A: "因為改考卷機器壞了", B: "因為名字寫錯了", C: "因為你們只對了那兩題一樣錯的，其他十三題選的都不一樣", D: "因為老師偏心" }, answer: "C" },
+  { id: 298, q: "「當你看到題目問『以上皆非』是不是正確答案時，如果『以上皆非』放在 A 選項，它其實在說什麼」？", options: { A: "選我一定對", B: "它在否定自己上面的東西，但它的上面只有題目沒有選項", C: "選 B 才對", D: "這題送分" }, answer: "B" },
+  { id: 299, q: "「當四個選項分別是『A.以上皆是』『B.以上皆非』『C.以下皆是』『D.以下皆非』，最崩潰的是誰」？", options: { A: "正在倒數計時還要看懂這題在繞什麼圈子的你", B: "出題老師", C: "電腦螢幕", D: "隔壁的路人" }, answer: "A" },
+  { id: 300, q: "「最後一題：當你為了破關而認真思考這些無厘頭問題時，你其實已經變成了什麼人」？", options: { A: "嚴肅的科學家", B: "時間管理大師", C: "路邊等公車的人", D: "完美掌握歪理與反轉邏輯的腦洞大師" }, answer: "D" },
+  { id: 301, q: "什麼動物最容易摔倒？", options: { A: "狐狸（因為狐狸狡猾...腳滑）", B: "企鵝（因為腿太短）", C: "袋鼠（因為只用跳的）", D: "樹懶（因為沒力氣）" }, answer: "A" },
+  { id: 302, q: "什麼動物最會一邊唱歌一邊跳舞？", options: { A: "孔雀（只會開屏）", B: "猴子（只會翻跟斗）", C: "鸚鵡（只會學講話）", D: "獅子（獅子座...）" }, answer: "D" },
+  { id: 303, q: "什麼車子開最快？", options: { A: "跑車（因為馬力大）", B: "高鐵（因為鐵軌直）", C: "捷運（因為它「捷」足先登）", D: "救護車（因為有鳴笛）" }, answer: "C" },
+  { id: 304, q: "什麼水果最愛生氣？", options: { A: "榴槤（因為全身是刺）", B: "火龍果（因為它一肚子火）", C: "苦瓜（因為臉很臭）", D: "檸檬（因為心裡很酸）" }, answer: "B" },
+  { id: 305, q: "什麼動物最沒有方向感？", options: { A: "金魚（只有三秒記憶）", B: "麋鹿（迷路）", C: "無尾熊（一直在睡覺）", D: "鴿子（忘了回家的路）" }, answer: "B" },
+  { id: 306, q: "什麼時候星星會變多？", options: { A: "被打的時候（眼冒金星）", B: "停電的時候", C: "去天文台的時候", D: "戴老花眼鏡的時候" }, answer: "A" },
+  { id: 307, q: "什麼樣的球不能踢？", options: { A: "足球", B: "躲避球", C: "沙灘球", D: "眼球" }, answer: "D" },
+  { id: 308, q: "什麼路最窄？", options: { A: "鄉間小路", B: "獨木橋", C: "冤家路窄", D: "防火巷" }, answer: "C" },
+  { id: 309, q: "什麼布剪不斷？", options: { A: "牛仔布", B: "帆布", C: "瀑布", D: "麻布" }, answer: "C" },
+  { id: 310, q: "什麼雞跑最快？", options: { A: "放山雞", B: "奇異鳥（奇雞？）", C: "戰鬥雞", D: "火雞" }, answer: "B" },
+  { id: 311, q: "什麼豬最聰明？", options: { A: "豬八戒（會魔法）", B: "山豬（會閃陷阱）", C: "迷你豬（會認主人）", D: "麝香豬（會算數）" }, answer: "A" },
+  { id: 312, q: "什麼水永遠喝不完？", options: { A: "礦泉水", B: "自來水", C: "海水", D: "薪水" }, answer: "D" },
+  { id: 313, q: "什麼筆不能寫字？", options: { A: "鉛筆、原子筆", B: "毛筆、鋼筆", C: "粉筆、蠟筆", D: "鼻屎、筆電" }, answer: "D" },
+  { id: 314, q: "什麼魚最貴？", options: { A: "黑鮪魚", B: "野生鮭魚", C: "鯨魚（金魚）", D: "龍膽石斑" }, answer: "C" },
+  { id: 315, q: "什麼時候人會變成兩半？", options: { A: "劈腿的時候", B: "照鏡子的時候", C: "變魔術的時候", D: "做惡夢的時候" }, answer: "B" },
+  { id: 316, q: "什麼樣的牛不會吃草？", options: { A: "蝸牛", B: "水牛", C: "乳牛", D: "黃牛" }, answer: "A" },
+  { id: 317, q: "什麼樣的熊力氣最大？", options: { A: "懶熊（懶得動，但很重）", B: "北極熊", C: "灰熊", D: "台灣黑熊" }, answer: "A" },
+  { id: 318, q: "什麼動物最常熬夜？", options: { A: "公雞（太早起床）", B: "蝙蝠（倒掛著睡）", C: "刺蝟（半夜找食物）", D: "貓頭鷹（本來就沒睡）" }, answer: "D" },
+  { id: 319, q: "什麼鼠最乾淨？", options: { A: "天竺鼠", B: "黃金鼠", C: "電腦滑鼠（常常被擦）", D: "松鼠" }, answer: "C" },
+  { id: 320, q: "什麼門永遠關不上？", options: { A: "旋轉門", B: "球門", C: "自動門", D: "逃生門" }, answer: "B" },
+  { id: 321, q: "什麼蛋打不碎？", options: { A: "鴕鳥蛋", B: "考試得零分（鴨蛋）", C: "恐龍蛋", D: "皮蛋" }, answer: "B" },
+  { id: 322, q: "什麼時候可以吃石頭？", options: { A: "石榴成熟時", B: "肚子超餓時", C: "牙齒特別硬時", D: "做夢夢到時" }, answer: "A" },
+  { id: 323, q: "什麼帽子永遠戴不到頭上？", options: { A: "安全帽", B: "棒球帽", C: "魔術帽", D: "螺絲帽" }, answer: "D" },
+  { id: 324, q: "什麼貓不會抓老鼠？", options: { A: "波斯貓、暹羅貓", B: "橘貓、黑貓", C: "哆啦A夢、招財貓", D: "野貓、家貓" }, answer: "C" },
+  { id: 325, q: "什麼人最喜歡照鏡子？", options: { A: "理髮師、化妝師", B: "模特兒、演員", C: "自戀狂、水仙花", D: "雙胞胎、魔術師" }, answer: "C" },
+  { id: 326, q: "什麼魚沒有眼睛？", options: { A: "章魚、魷魚", B: "盲魚、木魚", C: "鯊魚、鯨魚", D: "比目魚、燈籠魚" }, answer: "B" },
+  { id: 327, q: "什麼樹最高？", options: { A: "杜鵑樹（杜鵑花開得高？不，是橡膠樹）", B: "聖誕樹", C: "發財樹", D: "榕樹" }, answer: "A" },
+  { id: 328, q: "什麼鞋子最大？", options: { A: "雨鞋", B: "高跟鞋", C: "溜冰鞋", D: "雪鞋（鞋如其名）" }, answer: "D" },
+  { id: 329, q: "什麼布最便宜？", options: { A: "絲綢布", B: "蕾絲布", C: "絨毛布", D: "抹布" }, answer: "D" },
+  { id: 330, q: "什麼時候太陽會從西邊出來？", options: { A: "閏年的時候", B: "冬天結冰的時候", C: "夢裡", D: "站在南極的時候" }, answer: "C" },
+  { id: 331, q: "什麼人不怕冷？", options: { A: "太空人", B: "雪人", C: "機器人", D: "稻草人" }, answer: "B" },
+  { id: 332, q: "什麼地方的花最多？", options: { A: "花園", B: "百貨公司", C: "超市收銀台", D: "圖書館" }, answer: "A" },
+  { id: 333, q: "什麼地方的雨最大？", options: { A: "雨傘下面", B: "沙漠裡面", C: "客廳沙發上", D: "地下停車場" }, answer: "A" },
+  { id: 334, q: "什麼水不能喝？", options: { A: "開水", B: "檸檬水", C: "蜂蜜水", D: "淚水（太鹹）" }, answer: "D" },
+  { id: 335, q: "什麼筆最尖？", options: { A: "水彩筆", B: "螢光筆", C: "鋼筆", D: "粉筆" }, answer: "C" },
+  { id: 336, q: "什麼時候人最容易跌倒？", options: { A: "坐著的時候", B: "天黑的時候", C: "躺著睡覺的時候", D: "發呆的時候" }, answer: "B" },
+  { id: 337, q: "什麼水果最健忘？", options: { A: "蘋果", B: "楊桃（羊逃？）", C: "香蕉", D: "西瓜" }, answer: "B" },
+  { id: 338, q: "什麼樣的貓最兇？", options: { A: "母老虎", B: "小奶貓", C: "折耳貓", D: "加菲貓" }, answer: "A" },
+  { id: 339, q: "什麼鳥跑得比車還快？", options: { A: "麻雀", B: "白頭翁", C: "燕子", D: "鴕鳥" }, answer: "D" },
+  { id: 340, q: "什麼熊最喜歡睡覺？", options: { A: "玩具熊", B: "小熊餅乾", C: "樹懶（它不是熊，但很會睡）", D: "泰迪熊" }, answer: "C" },
+  { id: 341, q: "什麼樣的魚不能吃？", options: { A: "吳郭魚", B: "秋刀魚", C: "美人魚", D: "鱈魚" }, answer: "C" },
+  { id: 342, q: "什麼時候會「一言難盡」？", options: { A: "吃到好吃便當的時候", B: "上廁所沒帶衛生紙的時候", C: "準時下班的時候", D: "中發票兩百元的時候" }, answer: "B" },
+  { id: 343, q: "什麼樣的手機最危險？", options: { A: "容易爆炸的", B: "沒貼保護貼的", C: "螢幕太小的", D: "忘記充電的" }, answer: "A" },
+  { id: 344, q: "什麼樣的菜最貴？", options: { A: "泡菜", B: "榨菜", C: "紫菜", D: "青菜（因為青菜價很高？）" }, answer: "D" },
+  { id: 345, q: "什麼時候應該去看醫生？", options: { A: "肚子餓的時候", B: "想睡覺的時候", C: "手機沒電的時候", D: "生病的時候" }, answer: "D" },
+  { id: 346, q: "什麼動物最會說謊？", options: { A: "變色龍（只會換顏色）", B: "烏龜（只會縮頭）", C: "長頸鹿（因為它脖子長，話說得久）", D: "螃蟹（只會吐泡泡）" }, answer: "C" },
+  { id: 347, q: "什麼樣的車子沒有輪子？", options: { A: "腳踏車", B: "纜車", C: "摩托車", D: "手推車" }, answer: "B" },
+  { id: 348, q: "什麼樣的筆寫出來的字看不見？", options: { A: "隱形筆", B: "奇異筆", C: "麥克筆", D: "簽字筆" }, answer: "A" },
+  { id: 349, q: "什麼時候月亮最大？", options: { A: "中秋節", B: "初一的時候", C: "正中午的時候", D: "下雨天的時候" }, answer: "A" },
+  { id: 350, q: "什麼動物最喜歡乾淨？", options: { A: "泥巴裡的豬", B: "垃圾桶旁的老鼠", C: "沙坑裡的雞", D: "洗澡的河馬" }, answer: "D" },
+  { id: 351, q: "什麼樣的褲子不能穿？", options: { A: "牛仔褲", B: "運動褲", C: "燈籠褲（燈籠做的）", D: "休閒短褲" }, answer: "C" },
+  { id: 352, q: "什麼樣的書看不懂？", options: { A: "漫畫書", B: "無字天書", C: "童話故事書", D: "國語課本" }, answer: "B" },
+  { id: 353, q: "什麼時候最想吃冰淇淋？", options: { A: "寒流來的時候", B: "熱得快融化的時候", C: "發燒畏寒的時候", D: "剛刷完牙的時候" }, answer: "B" },
+  { id: 354, q: "什麼樣的房子最安全？", options: { A: "監獄", B: "茅草屋", C: "薑餅屋", D: "紙箱屋" }, answer: "A" },
+  { id: 355, q: "什麼樣的聲音最好聽？", options: { A: "鬧鐘響的聲音", B: "蚊子飛的聲音", C: "指甲刮黑板的聲音", D: "數錢的聲音" }, answer: "D" },
+  { id: 356, q: "什麼樣的樹會結果子？", options: { A: "塑膠樹", B: "電線桿", C: "果樹", D: "聖誕樹" }, answer: "C" },
+  { id: 357, q: "什麼樣的水果最酸？", options: { A: "哈密瓜", B: "水蜜桃", C: "檸檬", D: "木瓜" }, answer: "C" },
+  { id: 358, q: "什麼樣的花不會謝？", options: { A: "玫瑰花", B: "塑膠花", C: "百合花", D: "向日葵" }, answer: "B" },
+  { id: 359, q: "什麼樣的人最富有？", options: { A: "有錢人", B: "愛作夢的人", C: "常遲到的人", D: "愛睡覺的人" }, answer: "A" },
+  { id: 360, q: "什麼樣的人最貧窮？", options: { A: "中樂透的人", B: "銀行行長", C: "大富翁", D: "沒錢人" }, answer: "D" },
+  { id: 361, q: "什麼樣的鳥不會飛？", options: { A: "老鷹", B: "海鷗", C: "信天翁", D: "企鵝" }, answer: "D" },
+  { id: 362, q: "什麼樣的狗不會咬人？", options: { A: "看門狗", B: "狼狗", C: "玩具狗", D: "流浪狗" }, answer: "C" },
+  { id: 363, q: "什麼樣的貓最喜歡吃魚？", options: { A: "機器貓", B: "所有的貓", C: "石頭貓", D: "畫裡的貓" }, answer: "B" },
+  { id: 364, q: "什麼樣的鼠最聰明？", options: { A: "米老鼠", B: "地鼠", C: "袋鼠", D: "土撥鼠" }, answer: "A" },
+  { id: 365, q: "什麼樣的牛跑得最快？", options: { A: "瘋牛", B: "乳牛", C: "老黃牛", D: "木頭牛" }, answer: "A" },
+  { id: 366, q: "什麼樣的馬跑得最遠？", options: { A: "旋轉木馬", B: "鐵馬", C: "海馬", D: "白馬（白馬非馬？）" }, answer: "D" },
+  { id: 367, q: "什麼樣的羊最溫柔？", options: { A: "大野狼假扮的羊", B: "長角的山羊", C: "小綿羊", D: "發脾氣的公羊" }, answer: "C" },
+  { id: 368, q: "什麼樣的猴子最調皮？", options: { A: "石頭雕的猴子", B: "孫悟空", C: "動物園睡覺的猴子", D: "木頭猴子" }, answer: "B" },
+  { id: 369, q: "什麼樣的雞最會生蛋？", options: { A: "公雞", B: "母雞", C: "小雞", D: "烤雞" }, answer: "B" },
+  { id: 370, q: "什麼樣的鴨子叫最大聲？", options: { A: "大黃鴨", B: "薑母鴨", C: "北京烤鴨", D: "鹹水鴨" }, answer: "A" },
+  { id: 371, q: "什麼樣的豬最會吃？", options: { A: "撲滿小豬", B: "吃飽睡著的豬", C: "佩佩豬貼紙", D: "肚子餓的豬" }, answer: "D" },
+  { id: 372, q: "什麼樣的魚最聰明？", options: { A: "鹹魚", B: "吻仔魚", C: "鯊魚（鯊很大？）", D: "生魚片" }, answer: "C" },
+  { id: 373, q: "什麼樣的蝦最貴？", options: { A: "蝦米", B: "黑殼蝦", C: "龍蝦", D: "蝦味先" }, answer: "C" },
+  { id: 374, q: "什麼樣的蟹最兇？", options: { A: "寄居蟹", B: "大閘蟹", C: "蟹肉棒", D: "軟殼蟹" }, answer: "B" },
+  { id: 375, q: "什麼樣的貝殼最漂亮？", options: { A: "珍珠貝", B: "破掉的貝殼", C: "塑膠貝殼", D: "瓜子殼" }, answer: "A" },
+  { id: 376, q: "什麼樣的蟲最討厭？", options: { A: "螢火蟲", B: "蠶寶寶", C: "瓢蟲", D: "蚊子" }, answer: "D" },
+  { id: 377, q: "什麼樣的蚊子最喜歡叮人？", options: { A: "公蚊子", B: "吃飽的蚊子", C: "蚊香旁的蚊子", D: "母蚊子" }, answer: "D" },
+  { id: 378, q: "什麼樣的蒼蠅最髒？", options: { A: "剛洗完澡的蒼蠅", B: "玩具蒼蠅", C: "所有的蒼蠅", D: "畫裡的蒼蠅" }, answer: "C" },
+  { id: 379, q: "什麼樣的蜘蛛最毒？", options: { A: "蜘蛛人", B: "黑寡婦", C: "玩具蜘蛛", D: "結網的喇牙" }, answer: "B" },
+  { id: 380, q: "什麼樣的蛇最長？", options: { A: "蟒蛇", B: "蚯蚓", C: "貪食蛇", D: "軟糖蛇" }, answer: "A" },
+  { id: 381, q: "什麼樣的青蛙跳得最高？", options: { A: "樹蛙", B: "蝌蚪", C: "玩具發條蛙", D: "冬眠的青蛙" }, answer: "A" },
+  { id: 382, q: "什麼樣的烏龜爬得最慢？", options: { A: "忍者龜", B: "傑尼龜", C: "搭高鐵的烏龜", D: "所有的烏龜" }, answer: "D" },
+  { id: 383, q: "什麼樣的兔子耳朵最長？", options: { A: "巧虎的好朋友", B: "折耳兔", C: "安哥拉兔", D: "巧克力兔" }, answer: "C" },
+  { id: 384, q: "什麼樣的老虎最威風？", options: { A: "紙老虎", B: "森林之王", C: "布偶小虎", D: "巧虎" }, answer: "B" },
+  { id: 385, q: "什麼樣的獅子最兇猛？", options: { A: "石獅子", B: "非洲獅", C: "舞龍舞獅", D: "奶油獅" }, answer: "B" },
+  { id: 386, q: "什麼樣的大象鼻子最長？", options: { A: "亞洲象", B: "小飛象玩偶", C: "大象溜滑梯", D: "象棋裡的象" }, answer: "A" },
+  { id: 387, q: "什麼樣的河馬嘴巴最大？", options: { A: "剛出生的迷你河馬", B: "閉著嘴睡覺的河馬", C: "貼紙上的河馬", D: "河馬" }, answer: "D" },
+  { id: 388, q: "什麼樣的長頸鹿脖子最長？", options: { A: "剛孵出來的長頸鹿？", B: "坐著的矮腳馬", C: "成年長頸鹿", D: "折氣球長頸鹿" }, answer: "C" },
+  { id: 389, q: "什麼樣的斑馬條紋最清晰？", options: { A: "掉進泥巴坑的馬", B: "全黑的黑馬", C: "斑馬", D: "全白的白馬" }, answer: "C" },
+  { id: 390, q: "什麼樣的袋鼠口袋最大？", options: { A: "公袋鼠（沒有育兒袋）", B: "母袋鼠", C: "穿牛仔褲的袋鼠", D: "玩偶袋鼠" }, answer: "B" },
+  { id: 391, q: "什麼樣的熊貓黑眼圈最深？", options: { A: "所有的熊貓", B: "睡飽的北極熊", C: "戴墨鏡的台灣黑熊", D: "白化症的熊" }, answer: "A" },
+  { id: 392, q: "什麼樣的企鵝不怕冷？", options: { A: "住在赤道的企鵝", B: "穿短袖的布偶", C: "怕熱的北極熊", D: "皇帝企鵝" }, answer: "D" },
+  { id: 393, q: "什麼樣的海豚最聰明？", options: { A: "充氣海豚泳圈", B: "海豚形狀的餅乾", C: "不會游泳的海豚", D: "寬吻海豚" }, answer: "D" },
+  { id: 394, q: "什麼樣的鯨魚體型最大？", options: { A: "小金魚", B: "吻仔魚", C: "藍鯨", D: "熱帶魚" }, answer: "C" },
+  { id: 395, q: "什麼樣的鯊魚最凶殘？", options: { A: "鯊魚夾（髮夾）", B: "大白鯊", C: "鯊魚寶寶玩具", D: "吃素的鯨鯊" }, answer: "B" },
+  { id: 396, q: "什麼樣的章魚腳最多？", options: { A: "章魚（八隻）", B: "章魚燒丸子", C: "只有兩隻腳的人", D: "獨腳獸" }, answer: "A" },
+  { id: 397, q: "什麼樣的水母有毒？", options: { A: "箱型水母", B: "涼拌海蜇皮", C: "果凍做的水母", D: "塑膠袋水母" }, answer: "A" },
+  { id: 398, q: "什麼樣的海星長得像星星？", options: { A: "海參", B: "海膽", C: "海帶", D: "所有海星" }, answer: "D" },
+  { id: 399, q: "什麼樣的珊瑚最漂亮？", options: { A: "枯掉的白化珊瑚", B: "水泥塊", C: "紅珊瑚", D: "灰色鵝卵石" }, answer: "C" },
+  { id: 400, q: "什麼樣的海藻最長？", options: { A: "海苔片", B: "巨藻", C: "綠藻粉", D: "魚缸青苔" }, answer: "B" },
+];
 
-<script>
-const ideaDatabase = {
-  writing: {
-    title: "線上課程或電子書銷售",
-    description: "根據你的寫作技能，創建電子書、課程或教材，在 Udemy、Gumroad 等平台銷售。",
-    income: "$500-3,000/月",
-    time: "3-6 個月",
-    difficulty: "中等"
-  },
-  design: {
-    title: "設計模板銷售",
-    description: "創建可重用的設計模板（簡歷、演示文稿、社交媒體等），在 Etsy、Creative Market 販售。",
-    income: "$300-2,000/月",
-    time: "1-3 個月",
-    difficulty: "簡單"
-  },
-  coding: {
-    title: "軟體或應用開發",
-    description: "開發小工具、插件或應用，通過 App Store、Google Play 或訂閱模式獲利。",
-    income: "$1,000-10,000/月",
-    time: "2-6 個月",
-    difficulty: "困難"
-  },
-  marketing: {
-    title: "聯盟營銷部落格",
-    description: "創建部落格並撰寫相關內容，通過聯盟鏈接獲得佣金。",
-    income: "$200-2,000/月",
-    time: "3-12 個月",
-    difficulty: "中等"
-  },
-  investing: {
-    title: "股息投資組合",
-    description: "投資高股息股票、REITs 或債券基金，獲得定期股息。",
-    income: "$100-5,000/月",
-    time: "立即開始",
-    difficulty: "簡單"
-  },
-  fitness: {
-    title: "線上健身課程",
-    description: "錄製健身視頻或教程，在 YouTube、Patreon 或健身應用上獲利。",
-    income: "$300-3,000/月",
-    time: "2-4 個月",
-    difficulty: "中等"
-  },
-  travel: {
-    title: "旅遊部落格和 YouTube 頻道",
-    description: "分享旅遊經歷，通過廣告、贊助和聯盟營銷獲利。",
-    income: "$500-5,000/月",
-    time: "6-12 個月",
-    difficulty: "中等"
-  },
-  finance: {
-    title: "財務諮詢或教練服務",
-    description: "提供線上財務諮詢、線上課程或電子書。",
-    income: "$1,000-5,000/月",
-    time: "2-4 個月",
-    difficulty: "中等"
-  },
-  tech: {
-    title: "科技產品評測頻道",
-    description: "創建 YouTube 或部落格評測新科技產品。",
-    income: "$200-2,000/月",
-    time: "3-6 個月",
-    difficulty: "中等"
-  },
-  photography: {
-    title: "庫存照片銷售",
-    description: "將照片上傳到 Shutterstock、Adobe Stock 或 Unsplash，每次下載獲利。",
-    income: "$100-1,000/月",
-    time: "立即開始",
-    difficulty: "簡單"
-  },
-  music: {
-    title: "音樂授權",
-    description: "創建免版稅音樂並在 Epidemic Sound、AudioJungle 販售。",
-    income: "$200-2,000/月",
-    time: "持續進行",
-    difficulty: "中等"
-  },
-  dropshipping: {
-    title: "代銷網店",
-    description: "建立線上商店，進行代銷（無需庫存）。",
-    income: "$500-3,000/月",
-    time: "1-3 個月",
-    difficulty: "中等"
-  }
-};
+    // =========================================================================
+    // 遊戲狀態與題庫無限循環抽題器
+    // =========================================================================
+    const QUESTIONS_PER_STAGE = 15;
+    const STAGE_1_SECONDS = 60;
+    const STAGE_2_SECONDS = 30;
+    const MAX_WRONG_ALLOWED = 4; // 錯超過 30% (15 題中錯超過 4.5 題，即錯第 5 題) 立即結束
 
-const skillKeywords = {
-  writing: ['寫作', '編輯', '內容', '翻譯'],
-  design: ['設計', '平面', 'UI/UX', '視覺'],
-  coding: ['編程', '開發', '代碼', '軟體'],
-  marketing: ['營銷', '行銷', '推廣', 'SEO'],
-  investing: ['投資', '理財', '金融', '股票'],
-  fitness: ['健身', '運動', '瑜伽', '教練'],
-  travel: ['旅遊', '旅行', '探險', '背包'],
-  finance: ['財務', '金錢', '稅務', '預算'],
-  tech: ['科技', '技術', '電子', '程式'],
-  photography: ['攝影', '相機', '照片'],
-  music: ['音樂', '作曲', '製作'],
-  dropshipping: ['商業', '創業', '電商', '銷售']
-};
+    let deckPool = [];
+    let currentStage = 1; // 1 = 60秒關卡, 2 = 30秒快問快答
+    let stageQuestions = [];
+    let currentQuestionIndex = 0;
+    let stageCorrectCount = 0;
+    let stageWrongCount = 0;
+    let totalCorrectCount = 0;
+    let totalAnsweredCount = 0;
+    let timeLeft = STAGE_1_SECONDS;
+    let timerInterval = null;
+    let isPlaying = false;
+    let isPaused = false;
+    let isTransitioning = false;
+    let hasPlayedOnce = false;
+    let musicEnabled = true;
 
-function matchSkills(input) {
-  const ideas = [];
-  for (const [key, keywords] of Object.entries(skillKeywords)) {
-    if (keywords.some(kw => input.includes(kw))) {
-      ideas.push(key);
+    // 洗牌函數 (Fisher-Yates)
+    function shuffleArray(arr) {
+      const copy = arr.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = copy[i];
+        copy[i] = copy[j];
+        copy[j] = temp;
+      }
+      return copy;
     }
-  }
-  return ideas;
-}
 
-function generateIdeas() {
-  const skills = document.getElementById('skills').value.trim();
-  const interests = document.getElementById('interests').value.trim();
-  const capital = document.getElementById('capital').value;
-  const timeframe = document.getElementById('timeframe').value;
+    // 從 300 題題庫抽取 20 題（確保同一關不重複，且 300 題無限循環）
+    function drawStageQuestions(count) {
+      const picked = [];
+      const pickedIds = new Set();
 
-  if (!skills || !interests || !capital || !timeframe) {
-    alert('請填寫所有欄位');
-    return;
-  }
+      while (picked.length < count) {
+        if (deckPool.length === 0) {
+          deckPool = shuffleArray(QUESTION_BANK);
+        }
+        const candidate = deckPool.pop();
+        if (!pickedIds.has(candidate.id)) {
+          picked.push(candidate);
+          pickedIds.add(candidate.id);
+        }
+      }
+      return picked;
+    }
 
-  const matchedSkills = matchSkills(skills);
-  const matchedInterests = matchSkills(interests);
-  const allMatched = [...new Set([...matchedSkills, ...matchedInterests])];
+    // =========================================================================
+    // 音效與「碼表 / 計時器」背景音樂合成器 (Web Audio API)
+    // =========================================================================
+    let audioCtx = null;
+    let bgmSchedulerId = null;
+    let tickStep = 0;
 
-  let selectedIdeas = allMatched.slice(0, 5);
-  if (selectedIdeas.length < 5) {
-    const available = Object.keys(ideaDatabase).filter(k => !selectedIdeas.includes(k));
-    selectedIdeas = selectedIdeas.concat(available.slice(0, 5 - selectedIdeas.length));
-  }
+    function ensureAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === "suspended") {
+        audioCtx.resume().catch(() => {});
+      }
+    }
 
-  let html = '<div style="background: var(--color-background-success); color: var(--color-text-success); padding: 8px 12px; border-radius: var(--border-radius-md); font-size: 12px; margin-bottom: 1rem; display: inline-block;">✓ 成功生成 5 個被動收入想法</div><div>';
+    // 播放單次碼表滴答聲與最後10秒警報音
+    function playStopwatchTick(isUrgent, currentSec) {
+      if (!musicEnabled || !audioCtx) return;
+      try {
+        const now = audioCtx.currentTime;
 
-  selectedIdeas.forEach((ideaKey, index) => {
-    const idea = ideaDatabase[ideaKey];
-    html += `
-      <div style="background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.5rem; margin-bottom: 1rem;">
-        <div style="font-size: 18px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 0.75rem;">${index + 1}. ${idea.title}</div>
-        <div style="font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 1rem;">${idea.description}</div>
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; font-size: 13px;">
-          <div style="background: var(--color-background-secondary); padding: 8px 12px; border-radius: var(--border-radius-md); color: var(--color-text-secondary);">
-            <div style="color: var(--color-text-tertiary); font-size: 12px; margin-bottom: 2px;">開始產生收入</div>
-            <div>${idea.time}</div>
-          </div>
-          <div style="background: var(--color-background-secondary); padding: 8px 12px; border-radius: var(--border-radius-md); color: var(--color-text-secondary);">
-            <div style="color: var(--color-text-tertiary); font-size: 12px; margin-bottom: 2px;">預計月收入</div>
-            <div>${idea.income}</div>
-          </div>
-          <div style="background: var(--color-background-secondary); padding: 8px 12px; border-radius: var(--border-radius-md); color: var(--color-text-secondary);">
-            <div style="color: var(--color-text-tertiary); font-size: 12px; margin-bottom: 2px;">難度</div>
-            <div>${idea.difficulty}</div>
-          </div>
-        </div>
-      </div>
-    `;
-  });
+        // 碼表機械滴答聲 (Tick-Tock)
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const isHighTick = (tickStep % 2 === 0);
+        tickStep++;
 
-  html += '</div>';
-  document.getElementById('results').innerHTML = html;
-  document.getElementById('results').style.display = 'block';
-  document.getElementById('empty').style.display = 'none';
-}
+        osc.type = "triangle";
+        const baseFreq = isHighTick ? 1150 : 860;
+        osc.frequency.setValueAtTime(isUrgent ? baseFreq * 1.25 : baseFreq, now);
 
-function clearForm() {
-  document.getElementById('skills').value = '';
-  document.getElementById('interests').value = '';
-  document.getElementById('capital').value = '';
-  document.getElementById('timeframe').value = '';
-  document.getElementById('results').style.display = 'none';
-  document.getElementById('empty').style.display = 'block';
-}
-</script>
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(isUrgent ? 0.18 : 0.12, now + 0.004);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.05);
+
+        // 最後 10 秒額外加入倒數警報音效（音調隨倒數秒數升高）
+        if (isUrgent) {
+          const alarmOsc = audioCtx.createOscillator();
+          const alarmGain = audioCtx.createGain();
+          alarmOsc.type = "sawtooth";
+          const pitchBoost = Math.max(0, 10 - currentSec) * 65;
+          alarmOsc.frequency.setValueAtTime(1480 + pitchBoost, now);
+          alarmOsc.frequency.linearRampToValueAtTime(1760 + pitchBoost, now + 0.09);
+
+          alarmGain.gain.setValueAtTime(0.001, now);
+          alarmGain.gain.linearRampToValueAtTime(0.11, now + 0.01);
+          alarmGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.11);
+
+          alarmOsc.connect(alarmGain);
+          alarmGain.connect(audioCtx.destination);
+          alarmOsc.start(now);
+          alarmOsc.stop(now + 0.12);
+        }
+      } catch (e) {}
+    }
+
+    // 答對音效
+    function playCorrectSfx() {
+      if (!musicEnabled || !audioCtx) return;
+      try {
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(880, now);
+        osc.frequency.exponentialRampToValueAtTime(1320, now + 0.08);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.1);
+      } catch (e) {}
+    }
+
+    // 答錯紅色警示音效
+    function playWrongSfx() {
+      if (!musicEnabled || !audioCtx) return;
+      try {
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.linearRampToValueAtTime(130, now + 0.25);
+        gain.gain.setValueAtTime(0.22, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      } catch (e) {}
+    }
+
+    function startStopwatchMusic() {
+      stopStopwatchMusic();
+      if (!musicEnabled || !isPlaying || isPaused) return;
+
+      function scheduleNextTick() {
+        if (!musicEnabled || !isPlaying || isPaused) return;
+        const urgent = timeLeft <= 10;
+        playStopwatchTick(urgent, Math.ceil(timeLeft));
+        // 最後 10 秒頻率加快（每 220ms 一次），平時每 480ms 一次
+        const intervalMs = urgent ? 220 : 480;
+        bgmSchedulerId = setTimeout(scheduleNextTick, intervalMs);
+      }
+      scheduleNextTick();
+    }
+
+    function stopStopwatchMusic() {
+      if (bgmSchedulerId) {
+        clearTimeout(bgmSchedulerId);
+        bgmSchedulerId = null;
+      }
+    }
+
+    // =========================================================================
+    // DOM 元素綁定
+    // =========================================================================
+    const homeView = document.getElementById("home-view");
+    const gameView = document.getElementById("game-view");
+    const resultView = document.getElementById("result-view");
+
+    const btnStart = document.getElementById("btn-start");
+    const btnMusic = document.getElementById("btn-music");
+
+    const timerDisplay = document.getElementById("timer-display");
+    const questionCounter = document.getElementById("question-counter");
+    const questionText = document.getElementById("question-text");
+    const optionButtons = [
+      document.getElementById("opt-A"),
+      document.getElementById("opt-B"),
+      document.getElementById("opt-C"),
+      document.getElementById("opt-D"),
+    ];
+
+    const resultStatus = document.getElementById("result-status");
+    const resultCorrect = document.getElementById("result-correct");
+    const resultDetail = document.getElementById("result-detail");
+    const btnBackHome = document.getElementById("btn-back-home");
+
+    const pauseModal = document.getElementById("pause-modal");
+    const pauseTitle = document.getElementById("pause-title");
+    const btnResume = document.getElementById("btn-resume");
+    const btnPauseHome = document.getElementById("btn-pause-home");
+
+    const stageBanner = document.getElementById("stage-banner");
+    const errorOverlay = document.getElementById("error-overlay");
+
+    function switchView(targetView) {
+      [homeView, gameView, resultView].forEach((v) => {
+        v.classList.remove("active");
+      });
+      targetView.classList.add("active");
+    }
+
+    // =========================================================================
+    // 遊戲流程控制
+    // =========================================================================
+    function startNewGame() {
+      ensureAudioContext();
+      clearTimers();
+
+      currentStage = 1;
+      totalCorrectCount = 0;
+      totalAnsweredCount = 0;
+      isPlaying = true;
+      isPaused = false;
+      isTransitioning = false;
+
+      startStage(1);
+      switchView(gameView);
+    }
+
+    function startStage(stageNum) {
+      currentStage = stageNum;
+      stageQuestions = drawStageQuestions(QUESTIONS_PER_STAGE);
+      currentQuestionIndex = 0;
+      stageCorrectCount = 0;
+      stageWrongCount = 0;
+      timeLeft = stageNum === 1 ? STAGE_1_SECONDS : STAGE_2_SECONDS;
+
+      updateHud();
+      renderCurrentQuestion();
+      startStageTimer();
+      startStopwatchMusic();
+    }
+
+    function startStageTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+      }
+      const tickRate = 100; // 每 0.1 秒精準更新
+      let lastTimestamp = performance.now();
+
+      timerInterval = setInterval(() => {
+        if (!isPlaying || isPaused || isTransitioning) {
+          lastTimestamp = performance.now();
+          return;
+        }
+        const now = performance.now();
+        const delta = (now - lastTimestamp) / 1000;
+        lastTimestamp = now;
+
+        timeLeft = Math.max(0, timeLeft - delta);
+        updateHud();
+
+        if (timeLeft <= 0) {
+          endGame(false, "時間到！");
+        }
+      }, tickRate);
+    }
+
+    function clearTimers() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+      stopStopwatchMusic();
+    }
+
+    function updateHud() {
+      const displaySec = Math.ceil(timeLeft);
+      timerDisplay.textContent = String(displaySec);
+      if (timeLeft <= 10) {
+        timerDisplay.classList.add("urgent");
+      } else {
+        timerDisplay.classList.remove("urgent");
+      }
+      questionCounter.textContent = `${currentQuestionIndex + 1}/${QUESTIONS_PER_STAGE}`;
+    }
+
+    function renderCurrentQuestion() {
+      const qObj = stageQuestions[currentQuestionIndex];
+      if (!qObj) return;
+      updateHud();
+      questionText.textContent = qObj.q;
+
+      const keys = ["A", "B", "C", "D"];
+      optionButtons.forEach((btn, idx) => {
+        const key = keys[idx];
+        btn.classList.remove("pressed");
+        btn.textContent = qObj.options[key];
+      });
+    }
+
+    function handleAnswer(choiceKey, btnElem) {
+      if (!isPlaying || isPaused || isTransitioning) return;
+      ensureAudioContext();
+
+      // 按下答案時，按鍵顏色會加深
+      btnElem.classList.add("pressed");
+      const currentQ = stageQuestions[currentQuestionIndex];
+      const isCorrect = choiceKey === currentQ.answer;
+      totalAnsweredCount++;
+
+      if (isCorrect) {
+        stageCorrectCount++;
+        totalCorrectCount++;
+        playCorrectSfx();
+        isTransitioning = true;
+        setTimeout(() => {
+          btnElem.classList.remove("pressed");
+          isTransitioning = false;
+          advanceAfterAnswer();
+        }, 90);
+      } else {
+        stageWrongCount++;
+        playWrongSfx();
+        isTransitioning = true;
+
+        // 顯示明顯的紅色錯誤警示
+        errorOverlay.classList.remove("show");
+        void errorOverlay.offsetWidth;
+        errorOverlay.classList.add("show");
+
+        setTimeout(() => {
+          btnElem.classList.remove("pressed");
+          errorOverlay.classList.remove("show");
+          isTransitioning = false;
+
+          // 答錯率超過 30%（15 題中錯超過 4 題，即第 5 題錯）立刻結束
+          if (stageWrongCount > MAX_WRONG_ALLOWED) {
+            endGame(false, "答錯率超過 30%（錯超過 4 題）");
+            return;
+          }
+          advanceAfterAnswer();
+        }, 360);
+      }
+    }
+
+    function advanceAfterAnswer() {
+      if (!isPlaying) return;
+      if (currentQuestionIndex + 1 < QUESTIONS_PER_STAGE) {
+        currentQuestionIndex++;
+        renderCurrentQuestion();
+      } else {
+        // 完成本關 20 題
+        if (currentStage === 1) {
+          // 進入下一關：30 秒快問快答模式
+          isTransitioning = true;
+          stopStopwatchMusic();
+          stageBanner.classList.add("show");
+          setTimeout(() => {
+            stageBanner.classList.remove("show");
+            isTransitioning = false;
+            if (isPlaying) {
+              startStage(2);
+            }
+          }, 1100);
+        } else {
+          // 完成第二關 30 秒快問快答，破關成功！
+          endGame(true, "成功通過 60 秒與 30 秒快問快答雙關卡！");
+        }
+      }
+    }
+
+    function endGame(isCleared, reasonText) {
+      isPlaying = false;
+      isPaused = false;
+      isTransitioning = false;
+      hasPlayedOnce = true;
+      clearTimers();
+
+      // 遊戲結束後只能回到首頁，按「重新開始」才能再玩
+      btnStart.textContent = "重新開始";
+
+      resultStatus.textContent = isCleared ? "破關成功！" : "遊戲結束（未破關）";
+      resultStatus.className = "result-title " + (isCleared ? "pass" : "fail");
+      resultCorrect.textContent = `答對題數：${totalCorrectCount} 題（本關 ${stageCorrectCount}/${QUESTIONS_PER_STAGE}）`;
+      resultDetail.textContent = reasonText;
+
+      switchView(resultView);
+    }
+
+    // 暫停控制
+    function openPauseModal() {
+      ensureAudioContext();
+      if (isPlaying) {
+        isPaused = true;
+        stopStopwatchMusic();
+        pauseTitle.textContent = "遊戲已暫停";
+      } else {
+        pauseTitle.textContent = "目前待命中";
+      }
+      pauseModal.classList.add("show");
+    }
+
+    function closePauseModal() {
+      pauseModal.classList.remove("show");
+      if (isPlaying && isPaused) {
+        isPaused = false;
+        startStopwatchMusic();
+      }
+    }
+
+    function toggleMusic() {
+      ensureAudioContext();
+      musicEnabled = !musicEnabled;
+      btnMusic.textContent = musicEnabled ? "音樂：開啟" : "音樂：關閉";
+      if (musicEnabled) {
+        playCorrectSfx();
+        if (isPlaying && !isPaused) {
+          startStopwatchMusic();
+        }
+      } else {
+        stopStopwatchMusic();
+      }
+    }
+
+    // =========================================================================
+    // 事件監聽器
+    // =========================================================================
+    btnStart.addEventListener("click", () => {
+      startNewGame();
+    });
+
+    btnMusic.addEventListener("click", () => {
+      toggleMusic();
+    });
+
+    timerDisplay.addEventListener("click", () => {
+      if (isPlaying) {
+        openPauseModal();
+      }
+    });
+
+    optionButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const choice = btn.getAttribute("data-choice");
+        handleAnswer(choice, btn);
+      });
+    });
+
+    btnBackHome.addEventListener("click", () => {
+      switchView(homeView);
+    });
+
+    btnResume.addEventListener("click", () => {
+      closePauseModal();
+    });
+
+    btnPauseHome.addEventListener("click", () => {
+      pauseModal.classList.remove("show");
+      if (isPlaying) {
+        hasPlayedOnce = true;
+        btnStart.textContent = "重新開始";
+      }
+      clearTimers();
+      isPlaying = false;
+      isPaused = false;
+      switchView(homeView);
+    });
+
+    // 支援鍵盤快捷鍵 (1-4 / A-D 答題，P 或 Esc 暫停)
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" || e.key.toLowerCase() === "p") {
+        if (pauseModal.classList.contains("show")) {
+          closePauseModal();
+        } else if (isPlaying) {
+          openPauseModal();
+        }
+        return;
+      }
+      if (!isPlaying || isPaused || isTransitioning) return;
+      const keyMap = {
+        "1": 0, "a": 0,
+        "2": 1, "b": 1,
+        "3": 2, "c": 2,
+        "4": 3, "d": 3,
+      };
+      const idx = keyMap[e.key.toLowerCase()];
+      if (idx !== undefined) {
+        const btn = optionButtons[idx];
+        handleAnswer(btn.getAttribute("data-choice"), btn);
+      }
+    });
+  </script>
+</body>
+</html>
